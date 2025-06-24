@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Tiếng Anh Vui Nhộn</title>
+    <title>Học tiếng Anh vui nhộn</title>
+    <script src="questions.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #87CEEB;
+            background: linear-gradient(135deg, #87CEEB 0%, #98E4FF 50%, #B8F2FF 100%);
             overflow-x: hidden;
             user-select: none;
             touch-action: manipulation;
+            min-height: 100vh;
         }
-
         .game-container {
             position: relative;
             width: 100%;
@@ -22,299 +23,200 @@
             display: flex;
             flex-direction: column;
         }
-
-        .road {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background-color: #8B4513;
-            z-index: 1;
-        }
-
-        .road::before {
-            content: "";
+        .score {
             position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 10px;
-            background: repeating-linear-gradient(to right, white, white 40px, transparent 40px, transparent 80px);
-            transform: translateY(-50%);
-        }
-
-        .school {
-            position: fixed;
+            bottom: 0;
             right: 20px;
-            bottom: 100px;
-            width: 150px; /* Increased size */
-            height: 150px; /* Increased size */
-            background-color: #FFD700;
-            border: 5px solid #8B4513;
+            margin-bottom: 140px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 223, 0, 0.8) 100%);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2E4057;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .score::before {
+            content: "⭐ ";
+            font-size: 20px;
+        }
+        .character {
+            position: fixed;
+            bottom: 120px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            font-size: 64px;
+            transition: left 0.5s ease-out;
+            z-index: 10;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 36px; /* Increased font size for better visibility */
-            font-weight: bold;
-            color: #8B4513;
-            z-index: 2;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
-
-        .character {
+        .character::before {
+            content: "👶";
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .castle {
             position: fixed;
-            bottom: 100px;
-            left: 20px;
-            width: 75px; /* Increased size */
-            height: 75px; /* Increased size */
-            font-size: 48px; /* Increased font size for better visibility */
-            transition: left 0.5s ease-out;
-            z-index: 10;
+            right: 20px;
+            bottom: 120px;
+            width: 160px;
+            height: 160px;
+            background: pink;
+            border-radius: 20px;
+            border: 4px solid #FF69B4;
         }
-
         .content-wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
             padding: 20px;
-            margin-bottom: 220px; /* Khoảng cách đủ cho road và character */
+            margin-bottom: 240px;
             z-index: 5;
         }
-
         .question-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 15px;
+            background: #fffbe6;
+            border-radius: 20px;
+            padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
         }
-
         .question {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 15px;
-            word-break: break-word;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-
         .blanks {
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
-
         .blank {
-            width: 30px;
-            height: 40px;
-            border-bottom: 3px solid #333;
+            width: 35px;
+            height: 45px;
+            border-bottom: 4px solid #FF6B6B;
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #FF6347;
+            color: #E74C3C;
         }
-
+        .blank:not(:empty) {
+            border-bottom-color: #4ECDC4;
+            color: #2E7D32;
+        }
         .keyboard-container {
-            margin-top: 20px;
+            margin-top: 25px;
         }
-
         .keyboard {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 5px;
+            gap: 8px;
         }
-
         .key {
-            width: 30px;
-            height: 30px;
-            background-color: #FFD700;
-            border: 2px solid #8B4513;
-            border-radius: 5px;
+            width: 36px;
+            height: 36px;
+            background: #FFD700;
+            border: 2px solid #FF8C00;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
         }
-
-        .key:hover {
-            background-color: #FFA500;
-            transform: scale(1.1);
-        }
-
         .key.used {
-            background-color: #A9A9A9;
-            color: #696969;
+            background: #ccc;
+            color: #666;
             cursor: not-allowed;
         }
-
         .controls {
-            margin-top: 20px;
+            margin-top: 25px;
             display: flex;
             justify-content: center;
         }
-
         .btn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 12px 24px;
+            background: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
-        }
-
-        .score {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 25px;
+            font-size: 18px;
             font-weight: bold;
-            color: #333;
-            z-index: 10;
+            cursor: pointer;
         }
-
-        @media (max-width: 480px) {
-            .question {
-                font-size: 16px;
-            }
-            
-            .blank {
-                width: 25px;
-                height: 35px;
-                font-size: 20px;
-            }
-            
-            .key {
-                width: 25px;
-                height: 25px;
-                font-size: 14px;
-            }
-            
-            .school {
-                width: 100px; /* Adjusted for smaller screens */
-                height: 100px; /* Adjusted for smaller screens */
-                font-size: 24px; /* Adjusted for smaller screens */
-            }
-            
-            .character {
-                width: 50px; /* Adjusted for smaller screens */
-                height: 50px; /* Adjusted for smaller screens */
-                font-size: 30px; /* Adjusted for smaller screens */
-            }
-        }
-
-        @media (max-height: 600px) {
-            .content-wrapper {
-                margin-bottom: 180px;
-            }
-            
-            .road {
-                height: 80px;
-            }
-            
-            .school {
-                bottom: 80px;
-            }
-            
-            .character {
-                bottom: 80px;
-            }
+        .grass-road {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(to top, #2E7D32 0%, #4CAF50 30%, #66BB6A 100%);
+            z-index: 1;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
         <div class="score" id="score">Điểm: 0</div>
-        
         <div class="content-wrapper">
             <div class="question-container">
                 <div class="question" id="question"></div>
                 <div class="blanks" id="blanks"></div>
             </div>
-            
             <div class="keyboard-container">
                 <div class="keyboard" id="keyboard"></div>
             </div>
-            
             <div class="controls">
                 <button class="btn" id="reset">Chơi lại</button>
             </div>
         </div>
-        
-        <div class="road"></div>
-        <div class="school">🏫</div>
-        <div class="character" id="character">🚲</div>
+        <div class="grass-road"></div>
+        <div class="castle"></div>
+        <div class="character" id="character"></div>
     </div>
-
     <script>
-        // Dữ liệu câu hỏi
-        const questions = [
-            { question: "What is the capital of France?", answer: "PARIS" },
-            { question: "What is 2 + 2?", answer: "FOUR" },
-            { question: "What color is the sky?", answer: "BLUE" },
-            { question: "What is the opposite of hot?", answer: "COLD" },
-            { question: "What do you call a baby cat?", answer: "KITTEN" },
-            { question: "What is the largest ocean?", answer: "PACIFIC" },
-            { question: "What is the name of our planet?", answer: "EARTH" },
-            { question: "What is the first letter of the alphabet?", answer: "A" },
-            { question: "What is the color of an apple?", answer: "RED" },
-            { question: "What do you call a person who writes books?", answer: "AUTHOR" }
-        ];
-
-        // Biến trạng thái trò chơi
         let currentQuestionIndex = 0;
         let score = 0;
         let currentAnswer = '';
         let usedLetters = [];
         let selectedQuestions = [];
         const totalQuestions = 10;
-
-        // Khởi tạo trò chơi
         function initGame() {
             selectRandomQuestions();
             loadQuestion(selectedQuestions[currentQuestionIndex]);
             updateScore();
             setupKeyboard();
         }
-
-        // Chọn ngẫu nhiên các câu hỏi
         function selectRandomQuestions() {
-            const shuffled = [...questions].sort(() => 0.5 - Math.random());
+            const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, totalQuestions);
         }
-
-        // Tải câu hỏi hiện tại
         function loadQuestion(question) {
-            currentAnswer = question.answer.toUpperCase();
+            currentAnswer = question.plainAnswer.join('');
             usedLetters = [];
-            
             document.getElementById('question').textContent = question.question;
             createBlanks();
             resetKeyboard();
-            
-            // Đặt lại vị trí nhân vật
-            const character = document.getElementById('character');
-            character.style.left = '20px';
+            document.getElementById('character').style.left = '20px';
         }
-
-        // Tạo các ô trống cho từ
         function createBlanks() {
             const blanksContainer = document.getElementById('blanks');
             blanksContainer.innerHTML = '';
-            
             for (let i = 0; i < currentAnswer.length; i++) {
                 const blank = document.createElement('div');
                 blank.className = 'blank';
@@ -322,12 +224,8 @@
                 blanksContainer.appendChild(blank);
             }
         }
-
-        // Thiết lập bàn phím
         function setupKeyboard() {
             const keyboard = document.getElementById('keyboard');
-            
-            // Chỉ tạo bàn phím nếu chưa có
             if (keyboard.children.length === 0) {
                 for (let i = 65; i <= 90; i++) {
                     const letter = String.fromCharCode(i);
@@ -340,35 +238,19 @@
                 }
             }
         }
-
-        // Reset bàn phím về trạng thái ban đầu
         function resetKeyboard() {
-            const keys = document.querySelectorAll('.key');
-            keys.forEach(key => {
-                key.classList.remove('used');
-            });
+            document.querySelectorAll('.key').forEach(key => key.classList.remove('used'));
         }
-
-        // Xử lý đoán chữ cái
         function handleGuess(letter) {
             if (usedLetters.includes(letter)) return;
-            
             usedLetters.push(letter);
-            const keyElement = document.getElementById(`key-${letter}`);
-            keyElement.classList.add('used');
-            
+            document.getElementById(`key-${letter}`).classList.add('used');
             if (currentAnswer.includes(letter)) {
-                // Cập nhật các ô trống
                 updateBlanks(letter);
-                
-                // Di chuyển nhân vật tiến lên
                 moveCharacter(true);
-                
-                // Kiểm tra xem đã đoán đúng toàn bộ chưa
                 if (checkComplete()) {
                     score++;
                     updateScore();
-                    
                     setTimeout(() => {
                         currentQuestionIndex++;
                         if (currentQuestionIndex < selectedQuestions.length) {
@@ -377,62 +259,40 @@
                             alert(`Chúc mừng! Bạn đã hoàn thành trò chơi với ${score} điểm!`);
                             resetGame();
                         }
-                    }, 1500);
+                    }, 1000);
                 }
             } else {
-                // Di chuyển nhân vật lùi lại
                 moveCharacter(false);
             }
         }
-
-        // Cập nhật các ô trống với chữ cái đoán đúng
         function updateBlanks(letter) {
             for (let i = 0; i < currentAnswer.length; i++) {
                 if (currentAnswer[i] === letter) {
-                    const blank = document.getElementById(`blank-${i}`);
-                    blank.textContent = letter;
+                    document.getElementById(`blank-${i}`).textContent = letter;
                 }
             }
         }
-
-        // Di chuyển nhân vật
         function moveCharacter(forward) {
             const character = document.getElementById('character');
             const currentLeft = parseInt(character.style.left) || 20;
-            const roadWidth = document.querySelector('.road').offsetWidth;
-            // Adjust step calculation based on new character width to ensure it doesn't go off screen
+            const step = 30;
             const characterWidth = character.offsetWidth;
-            const schoolLeft = document.querySelector('.school').offsetLeft; // Get school's left position
-            const maxLeft = schoolLeft - characterWidth - 20; // Stop character before reaching the school
-
-            const step = (maxLeft - 20) / currentAnswer.length;
-            
-            if (forward) {
-                const newLeft = Math.min(currentLeft + step, maxLeft);
-                character.style.left = `${newLeft}px`;
-            } else {
-                const newLeft = Math.max(currentLeft - step, 20);
-                character.style.left = `${newLeft}px`;
-            }
+            const castleLeft = document.querySelector('.castle').offsetLeft;
+            const maxLeft = castleLeft - characterWidth - 20;
+            const newLeft = forward
+                ? Math.min(currentLeft + step, maxLeft)
+                : Math.max(currentLeft - step, 20);
+            character.style.left = `${newLeft}px`;
         }
-
-        // Kiểm tra xem đã đoán đúng toàn bộ chưa
         function checkComplete() {
             for (let i = 0; i < currentAnswer.length; i++) {
-                const blank = document.getElementById(`blank-${i}`);
-                if (!blank.textContent) {
-                    return false;
-                }
+                if (!document.getElementById(`blank-${i}`).textContent) return false;
             }
             return true;
         }
-
-        // Cập nhật điểm số
         function updateScore() {
             document.getElementById('score').textContent = `Điểm: ${score}`;
         }
-
-        // Reset trò chơi
         function resetGame() {
             currentQuestionIndex = 0;
             score = 0;
@@ -440,14 +300,8 @@
             loadQuestion(selectedQuestions[currentQuestionIndex]);
             updateScore();
         }
-
-        // Sự kiện click nút reset
         document.getElementById('reset').addEventListener('click', resetGame);
-
-        // Khởi động trò chơi khi trang tải xong
         window.addEventListener('DOMContentLoaded', initGame);
-
-        // Thêm sự kiện bàn phím vật lý
         document.addEventListener('keydown', (e) => {
             const key = e.key.toUpperCase();
             if (/^[A-Z]$/.test(key)) {
