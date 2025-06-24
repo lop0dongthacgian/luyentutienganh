@@ -160,6 +160,7 @@
             font-weight: bold;
             cursor: pointer;
         }
+        
         .grass-road {
             position: fixed;
             bottom: 0;
@@ -167,7 +168,49 @@
             height: 120px;
             background: linear-gradient(to top, #2E7D32 0%, #4CAF50 30%, #66BB6A 100%);
             z-index: 1;
+            overflow: hidden;
         }
+
+        .grass-road::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, #FF69B4 2px, transparent 2px),
+                radial-gradient(circle at 80% 20%, #FFD700 3px, transparent 3px),
+                radial-gradient(circle at 40% 40%, #FF6347 2px, transparent 2px),
+                radial-gradient(circle at 60% 90%, #9370DB 2px, transparent 2px),
+                radial-gradient(circle at 90% 60%, #FF1493 2px, transparent 2px),
+                radial-gradient(circle at 10% 30%, #00CED1 2px, transparent 2px);
+            background-size: 80px 40px, 100px 50px, 60px 30px, 120px 60px, 90px 45px, 70px 35px;
+            animation: flowersWave 6s ease-in-out infinite;
+        }
+
+        .grass-road::after {
+            content: "🌸 🌼 🌺 🌻 🌷 🌹 🌸 🌼 🌺 🌻 🌷 🌹 🌸 🌼 🌺 🌻 🌷 🌹";
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            font-size: 16px;
+            text-align: center;
+            animation: flowersFloat 8s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes flowersWave {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes flowersFloat {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
     </style>
 </head>
 <body>
