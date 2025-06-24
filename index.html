@@ -3,78 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học Tiếng Anh Vui Nhộn</title>
-    <script src="questions.js">
-    // Hiển thị pháo hoa khi hoàn thành trò chơi
-    function showFireworks() {
-        const container = document.getElementById("fireworks");
-        const canvas = document.getElementById("fireworkCanvas");
-        container.style.display = "block";
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const fireworks = [];
-        function Firework() {
-            this.x = Math.random() * canvas.width;
-            this.y = canvas.height;
-            this.targetY = Math.random() * canvas.height / 2;
-            this.radius = 2;
-            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            this.dy = -Math.random() * 3 - 2;
-        }
-
-        Firework.prototype.update = function () {
-            this.y += this.dy;
-            if (this.y <= this.targetY) {
-                for (let i = 0; i < 50; i++) {
-                    fireworks.push(new Particle(this.x, this.y, this.color));
-                }
-                return false;
-            }
-            return true;
-        };
-
-        function Particle(x, y, color) {
-            this.x = x;
-            this.y = y;
-            this.radius = 1 + Math.random();
-            this.color = color;
-            this.dx = (Math.random() - 0.5) * 6;
-            this.dy = (Math.random() - 0.5) * 6;
-            this.alpha = 1;
-        }
-
-        Particle.prototype.update = function () {
-            this.x += this.dx;
-            this.y += this.dy;
-            this.alpha -= 0.02;
-            return this.alpha > 0;
-        };
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (Math.random() < 0.05) fireworks.push(new Firework());
-            for (let i = fireworks.length - 1; i >= 0; i--) {
-                const f = fireworks[i];
-                if (!f.update()) fireworks.splice(i, 1);
-                ctx.globalAlpha = f.alpha || 1;
-                ctx.beginPath();
-                ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
-                ctx.fillStyle = f.color;
-                ctx.fill();
-            }
-            ctx.globalAlpha = 1;
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        setTimeout(() => {
-            container.style.display = "none";
-        }, 6000);
-    }
-
-</script>
+    <title>Học tiếng Anh vui nhộn</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -92,26 +21,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-        .score {
-            position: absolute;
-            bottom: 0;
-            right: 20px;
-            margin-bottom: 140px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 223, 0, 0.8) 100%);
-            padding: 12px 20px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2E4057;
-            z-index: 10;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-        .score::before {
-            content: "⭐ ";
-            font-size: 20px;
         }
         .character {
             position: fixed;
@@ -136,44 +45,20 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
-       .castle {
-    position: fixed;
-    right: 20px;
-    bottom: 120px;
-    width: 160px;
-    height: 160px;
-    background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 50%, #FFA07A 100%);
-    border: 4px solid #DAA520;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
-    z-index: 2;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-}
-
-.castle::before {
-    content: "🏫";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 64px;
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.castle::after {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: 20px;
-    right: 20px;
-    height: 30px;
-    background: repeating-linear-gradient(90deg, #DAA520 0px, #DAA520 20px, transparent 20px, transparent 30px);
-    border-radius: 5px;
-}
-
+        .castle {
+            position: fixed;
+            right: 20px;
+            bottom: 120px;
+            width: 160px;
+            height: 160px;
+            z-index: 2;
+        }
+        .castle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        }
         .content-wrapper {
             flex: 1;
             display: flex;
@@ -237,16 +122,24 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .key:hover {
+            background: #FFC107;
+            transform: scale(1.05);
         }
         .key.used {
             background: #ccc;
             color: #666;
             cursor: not-allowed;
+            transform: none;
         }
         .controls {
             margin-top: 25px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
         }
         .btn {
             padding: 12px 24px;
@@ -257,8 +150,27 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        
+        .btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        .score-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 223, 0, 0.8) 100%);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2E4057;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .score-container::before {
+            content: "⭐ ";
+            font-size: 20px;
+        }
         .grass-road {
             position: fixed;
             bottom: 0;
@@ -268,7 +180,6 @@
             z-index: 1;
             overflow: hidden;
         }
-
         .grass-road::before {
             content: "";
             position: absolute;
@@ -286,7 +197,6 @@
             background-size: 80px 40px, 100px 50px, 60px 30px, 120px 60px, 90px 45px, 70px 35px;
             animation: flowersWave 6s ease-in-out infinite;
         }
-
         .grass-road::after {
             content: "🌸 🌼 🌺 🌻 🌷 🌹 🌸 🌼 🌺 🌻 🌷 🌹 🌸 🌼 🌺 🌻 🌷 🌹";
             position: absolute;
@@ -298,25 +208,58 @@
             animation: flowersFloat 8s linear infinite;
             white-space: nowrap;
         }
-
         @keyframes flowersWave {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
         }
-
         @keyframes flowersFloat {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
-
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fireworkExplode 1s forwards;
+        }
+        @keyframes fireworkExplode {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0);
+                opacity: 0;
+            }
+        }
+        @keyframes fireworkParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <div class="score" id="score">Điểm: 0</div>
         <div class="content-wrapper">
             <div class="question-container">
-                <div class="question" id="question"></div>
+                <div class="question" id="question">Câu hỏi sẽ hiển thị ở đây</div>
                 <div class="blanks" id="blanks"></div>
             </div>
             <div class="keyboard-container">
@@ -324,29 +267,843 @@
             </div>
             <div class="controls">
                 <button class="btn" id="reset">Chơi lại</button>
+                <div class="score-container" id="score">Điểm: 0</div>
             </div>
         </div>
         <div class="grass-road"></div>
-        <div class="castle"></div>
+        <div class="castle">
+            <!-- SVG hình ngôi trường không nền -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <path fill="#FFD700" d="M10 60 L50 20 L90 60 Z" />
+                <rect x="20" y="60" width="60" height="40" fill="#FFA07A" />
+                <rect x="30" y="70" width="15" height="30" fill="#8B4513" />
+                <rect x="55" y="70" width="15" height="30" fill="#8B4513" />
+                <rect x="45" y="30" width="10" height="30" fill="#8B4513" />
+                <circle cx="50" cy="40" r="3" fill="#87CEEB" />
+                <rect x="25" y="40" width="10" height="20" fill="#87CEEB" />
+                <rect x="65" y="40" width="10" height="20" fill="#87CEEB" />
+                <rect x="35" y="80" width="5" height="5" fill="#FFD700" />
+                <rect x="60" y="80" width="5" height="5" fill="#FFD700" />
+            </svg>
+        </div>
         <div class="character" id="character"></div>
+        <div id="fireworks"></div>
     </div>
     <script>
+        // Dữ liệu câu hỏi
+        const allQuestions = [
+            // Unit 1: My Family (Gia đình tôi) - 5 questions
+            {
+                question: "Who is your mother's father? (Ông ngoại của bạn là ai?)",
+                answer: ['G', 'R', 'A', 'N', 'D', 'P', 'A'],
+                plainAnswer: ['G', 'R', 'A', 'N', 'D', 'P', 'A'] // GRANDPA
+            },
+            {
+                question: "Who is your father's sister? (Cô/Dì của bạn là ai?)",
+                answer: ['A', 'U', 'N', 'T'],
+                plainAnswer: ['A', 'U', 'N', 'T'] // AUNT
+            },
+            {
+                question: "Who is your brother's mother? (Mẹ của anh/em trai bạn là ai?)",
+                answer: ['M', 'O', 'T', 'H', 'E', 'R'],
+                plainAnswer: ['M', 'O', 'T', 'H', 'E', 'R'] // MOTHER
+            },
+            {
+                question: "Who is your father's father? (Ông nội của bạn là ai?)",
+                answer: ["G", "R", "A", "N", "D", "P", "A"],
+                plainAnswer: ["G", "R", "A", "N", "D", "P", "A"]
+            },
+            {
+                question: "Who is your mother's mother? (Bà ngoại của bạn là ai?)",
+                answer: ["G", "R", "A", "N", "D", "M", "A"],
+                plainAnswer: ["G", "R", "A", "N", "D", "M", "A"]
+            },
+            // New question added
+            {
+                question: "Who is your father's brother? (Chú/Cậu của bạn là ai?)",
+                answer: ['U', 'N', 'C', 'L', 'E'],
+                plainAnswer: ['U', 'N', 'C', 'L', 'E']
+            },
+
+            // Unit 2: My School (Trường học của tôi) - 10 questions
+            {
+                question: "What do you write with? (Bạn viết bằng gì?)",
+                answer: ['P', 'E', 'N', 'C', 'I', 'L'],
+                plainAnswer: ['P', 'E', 'N', 'C', 'I', 'L'] // PENCIL
+            },
+            {
+                question: "What do you carry your books in? (Bạn đựng sách trong vật gì?)",
+                answer: ['S', 'C', 'H', 'O', 'O', 'L', 'B', 'A', 'G'],
+                plainAnswer: ['S', 'C', 'H', 'O', 'O', 'L', 'B', 'A', 'G'] // SCHOOLBAG
+            },
+            {
+                question: "What color is the sky? (Bầu trời màu gì?)",
+                answer: ['B', 'L', 'U', 'E'],
+                plainAnswer: ['B', 'L', 'U', 'E'] // BLUE
+            },
+            {
+                question: "Where do you sit in class? (Bạn ngồi ở đâu trong lớp?)",
+                answer: ["C", "H", "A", "I", "R"],
+                plainAnswer: ["C", "H", "A", "I", "R"]
+            },
+            {
+                question: "What do you write on? (Bạn viết lên cái gì?)",
+                answer: ["B", "O", "A", "R", "D"],
+                plainAnswer: ["B", "O", "A", "R", "D"]
+            },
+            {
+                question: "You go to this place to study. (Bạn đến nơi này để học.)",
+                answer: ["S", "C", "H", "O", "O", "L"],
+                plainAnswer: ["S", "C", "H", "O", "O", "L"]
+            },
+            {
+                question: "This is a place where you play at school. (Đây là nơi bạn chơi ở trường.)",
+                answer: ['P','L','A','Y','G','R','O','U','N','D'],
+                plainAnswer: ['P','L','A','Y','G','R','O','U','N','D']
+            },
+            {
+                question: "You use this to cut paper. (Bạn dùng cái này để cắt giấy.)",
+                answer: ['S','C','I','S','S','O','R','S'],
+                plainAnswer: ['S','C','I','S','S','O','R','S']
+            },
+            {
+                question: "You color pictures with this. (Bạn tô màu tranh với cái này.)",
+                answer: ['C','R','A','Y','O','N'],
+                plainAnswer: ['C','R','A','Y','O','N']
+            },
+            {
+                question: "You carry your lunch in this. (Bạn mang bữa trưa trong cái này.)",
+                answer: ['L','U','N','C','H','B','O','X'],
+                plainAnswer: ['L','U','N','C','H','B','O','X']
+            },
+            {
+                question: "You do this with a pencil to make words. (Bạn làm điều này với bút chì để tạo từ.)",
+                answer: ['W','R','I','T','E'],
+                plainAnswer: ['W','R','I','T','E']
+            },
+
+            // Unit 3: My Toys (Đồ chơi của tôi) - 5 questions
+            {
+                question: "It's a soft toy, often looks like an animal. (Một món đồ chơi mềm, thường trông giống một con vật.)",
+                answer: ['T', 'E', 'D', 'D', 'Y'],
+                plainAnswer: ['T', 'E', 'D', 'D', 'Y'] // TEDDY
+            },
+            {
+                question: "You can bounce it and play games like football. (Bạn có thể nảy nó và chơi các trò như bóng đá.)",
+                answer: ['B', 'A', 'L', 'L'],
+                plainAnswer: ['B', 'A', 'L', 'L'] // BALL
+            },
+            {
+                question: "It has wheels and you can ride it. (Nó có bánh xe và bạn có thể lái nó.)",
+                answer: ['B', 'I', 'K', 'E'],
+                plainAnswer: ['B', 'I', 'K', 'E'] // BIKE
+            },
+            {
+                question: "It has four wheels and you can push it. (Nó có bốn bánh xe và bạn có thể đẩy nó.)",
+                answer: ["C", "A", "R"],
+                plainAnswer: ["C", "A", "R"]
+            },
+            {
+                question: "You use this to play music. (Bạn dùng cái này để phát nhạc.)",
+                answer: ["R", "A", "D", "I", "O"],
+                plainAnswer: ["R", "A", "D", "I", "O"]
+            },
+            {
+                question: "It's a toy with many colorful blocks you can build with. (Đồ chơi có nhiều khối đầy màu sắc bạn có thể xây dựng.)",
+                answer: ['L', 'E', 'G', 'O'],
+                plainAnswer: ['L', 'E', 'G', 'O'] // LEGO
+            },
+            {
+                question: "A toy that looks like a person, often played with by girls. (Một món đồ chơi trông giống người, thường được các bé gái chơi.)",
+                answer: ['D', 'O', 'L', 'L'],
+                plainAnswer: ['D', 'O', 'L', 'L'] // DOLL
+            },
+
+            // Unit 4: Animals (Động vật) - 10 questions
+            {
+                question: "What animal says 'Meow'? (Con vật nào kêu 'Meo'?)",
+                answer: ['C', 'A', 'T'],
+                plainAnswer: ['C', 'A', 'T'] // CAT
+            },
+            {
+                question: "It's a farm animal that gives us milk. (Một con vật nuôi trong trang trại cho chúng ta sữa.)",
+                answer: ['C', 'O', 'W'],
+                plainAnswer: ['C', 'O', 'W'] // COW
+            },
+            {
+                question: "It's a small, fluffy animal that likes to eat carrots. (Một con vật nhỏ, mềm mại thích ăn cà rốt.)",
+                answer: ['R', 'A', 'B', 'B', 'I', 'T'],
+                plainAnswer: ['R', 'A', 'B', 'B', 'I', 'T'] // RABBIT
+            },
+            {
+                question: "It barks and is a common pet. (Nó sủa và là thú cưng phổ biến.)",
+                answer: ["D", "O", "G"],
+                plainAnswer: ["D", "O", "G"]
+            },
+            {
+                question: "It swims and has fins. (Nó bơi và có vây.)",
+                answer: ["F", "I", "S", "H"],
+                plainAnswer: ["F", "I", "S", "H"]
+            },
+            {
+                question: "This animal says 'Oink'. (Con vật này kêu 'Ủn ỉn'.)",
+                answer: ['P', 'I', 'G'],
+                plainAnswer: ['P', 'I', 'G'] // PIG
+            },
+            {
+                question: "This animal says 'Moo'. (Con vật này kêu 'Bo bò'.)",
+                answer: ['C', 'O', 'W'],
+                plainAnswer: ['C', 'O', 'W'] // COW - (Duplicate with above but for specific sound) - Removed duplicate, keeping for sound if needed.
+            },
+            {
+                question: "A large animal with a long trunk. (Một con vật lớn có vòi dài.)",
+                answer: ['E', 'L', 'E', 'P', 'H', 'A', 'N', 'T'],
+                plainAnswer: ['E', 'L', 'E', 'P', 'H', 'A', 'N', 'T'] // ELEPHANT
+            },
+            {
+                question: "A bird that can talk. (Một con chim có thể nói.)",
+                answer: ['P', 'A', 'R', 'R', 'O', 'T'],
+                plainAnswer: ['P', 'A', 'R', 'R', 'O', 'T'] // PARROT
+            },
+            {
+                question: "A striped wild cat. (Một loài mèo hoang dã có sọc.)",
+                answer: ['T', 'I', 'G', 'E', 'R'],
+                plainAnswer: ['T', 'I', 'G', 'E', 'R'] // TIGER
+            },
+
+            // Unit 5: My Body (Cơ thể tôi) - 5 questions
+            {
+                question: "How many eyes do you have? (Bạn có bao nhiêu mắt?)",
+                answer: ['T', 'W', 'O'],
+                plainAnswer: ['T', 'W', 'O'] // TWO
+            },
+            {
+                question: "You use this to hear. (Bạn sử dụng bộ phận nào để nghe?)",
+                answer: ['E', 'A', 'R'],
+                plainAnswer: ['E', 'A', 'R'] // EAR
+            },
+            {
+                question: "You use these to walk. (Bạn dùng bộ phận nào để đi lại?)",
+                answer: ['L', 'E', 'G', 'S'],
+                plainAnswer: ['L', 'E', 'G', 'S'] // LEGS
+            },
+            {
+                question: "You use this to see. (Bạn sử dụng gì để nhìn thấy?)",
+                answer: ["E", "Y", "E", "S"],
+                plainAnswer: ["E", "Y", "E", "S"]
+            },
+            {
+                question: "You use it to smell. (Bạn dùng nó để ngửi.)",
+                answer: ["N", "O", "S", "E"],
+                plainAnswer: ["N", "O", "S", "E"]
+            },
+            {
+                question: "You brush these every morning. (Bạn đánh những cái này mỗi sáng.)",
+                answer: ['T','E','E','T','H'],
+                plainAnswer: ['T','E','E','T','H']
+            },
+            {
+                question: "You clap with these. (Bạn vỗ tay bằng cái này.)",
+                answer: ['H','A','N','D','S'],
+                plainAnswer: ['H','A','N','D','S']
+            },
+
+            // Unit 6: Clothes (Quần áo) - 5 questions
+            {
+                question: "What do you wear on your feet? (Bạn mang gì vào chân?)",
+                answer: ['S', 'H', 'O', 'E', 'S'],
+                plainAnswer: ['S', 'H', 'O', 'E', 'S'] // SHOES
+            },
+            {
+                question: "You wear this on your head. (Bạn đội gì trên đầu?)",
+                answer: ['H', 'A', 'T'],
+                plainAnswer: ['H', 'A', 'T'] // HAT
+            },
+            {
+                question: "You wear this on your body. (Bạn mặc gì trên người?)",
+                answer: ['S', 'H', 'I', 'R', 'T'],
+                plainAnswer: ['S', 'H', 'I', 'R', 'T'] // SHIRT
+            },
+            {
+                question: "You wear this when it's cold. (Bạn mặc cái này khi trời lạnh.)",
+                answer: ["C", "O", "A", "T"],
+                plainAnswer: ["C", "O", "A", "T"]
+            },
+            {
+                question: "You wear it on your legs. (Bạn mang nó ở chân.)",
+                answer: ["P", "A", "N", "T", "S"],
+                plainAnswer: ["P", "A", "N", "T", "S"]
+            },
+            {
+                question: "You wear these on your hands in winter. (Bạn mang gì vào tay khi trời lạnh?)",
+                answer: ['G','L','O','V','E','S'],
+                plainAnswer: ['G','L','O','V','E','S']
+            },
+            {
+                question: "What you wear to go to bed. (Bạn mặc gì khi đi ngủ?)",
+                answer: ['P','A','J','A','M','A','S'],
+                plainAnswer: ['P','A','J','A','M','A','S']
+            },
+            {
+                question: "You wear this over your shirt for warmth. (Bạn mặc cái này bên ngoài áo để giữ ấm.)",
+                answer: ['S','W','E','A','T','E','R'],
+                plainAnswer: ['S','W','E','A','T','E','R']
+            },
+
+            // Unit 7: Food (Thức ăn) - 10 questions
+            {
+                question: "It's a yellow fruit that monkeys like. (Một loại quả màu vàng mà khỉ thích.)",
+                answer: ['B', 'A', 'N', 'A', 'N', 'A'],
+                plainAnswer: ['B', 'A', 'N', 'A', 'N', 'A'] // BANANA
+            },
+            {
+                question: "It's white and you drink it. (Nó màu trắng và bạn uống nó.)",
+                answer: ['M', 'I', 'L', 'K'],
+                plainAnswer: ['M', 'I', 'L', 'K'] // MILK
+            },
+            {
+                question: "It's sweet and bees make it. (Nó ngọt và ong tạo ra.)",
+                answer: ["H", "O", "N", "E", "Y"],
+                plainAnswer: ["H", "O", "N", "E", "Y"]
+            },
+            {
+                question: "You eat this in the morning. (Bạn ăn cái này vào buổi sáng.)",
+                answer: ["B", "R", "E", "A", "D"],
+                plainAnswer: ["B", "R", "E", "A", "D"]
+            },
+            {
+                question: "You eat this in the morning. (Bạn ăn gì vào buổi sáng?)",
+                answer: ["B", "R", "E", "A", "K", "F", "A", "S", "T"],
+                plainAnswer: ["B", "R", "E", "A", "K", "F", "A", "S", "T"]
+            },
+            {
+                question: "A round red fruit. (Một loại quả tròn màu đỏ.)",
+                answer: ['A','P','P','L','E'],
+                plainAnswer: ['A','P','P','L','E']
+            },
+            {
+                question: "You drink this when you are thirsty. (Bạn uống cái này khi khát.)",
+                answer: ['W','A','T','E','R'],
+                plainAnswer: ['W','A','T','E','R']
+            },
+            {
+                question: "It comes from chickens and you can fry it. (Nó đến từ gà và bạn có thể chiên nó.)",
+                answer: ['E','G','G'],
+                plainAnswer: ['E','G','G']
+            },
+            {
+                question: "A sweet treat often eaten after dinner. (Một món ngọt thường được ăn sau bữa tối.)",
+                answer: ['C','A','K','E'],
+                plainAnswer: ['C','A','K','E']
+            },
+            {
+                question: "A long green vegetable. (Một loại rau dài màu xanh.)",
+                answer: ['C','U','C','U','M','B','E','R'],
+                plainAnswer: ['C','U','C','U','M','B','E','R']
+            },
+
+            // Unit 8: My House (Ngôi nhà của tôi) - 10 questions
+            {
+                question: "You sleep on it at night. (Bạn ngủ trên gì vào ban đêm?)",
+                answer: ['B', 'E', 'D'],
+                plainAnswer: ['B', 'E', 'D'] // BED
+            },
+            {
+                question: "You sit on it. (Bạn ngồi vào vật gì?)",
+                answer: ['C', 'H', 'A', 'I', 'R'],
+                plainAnswer: ['C', 'H', 'A', 'I', 'R'] // CHAIR
+            },
+            {
+                question: "You watch this for fun. (Bạn xem gì để giải trí?)",
+                answer: ['T', 'V'],
+                plainAnswer: ['T', 'V'] // TV
+            },
+            {
+                question: "You keep your clothes in this. (Bạn cất quần áo trong cái này.)",
+                answer: ["C", "L", "O", "S", "E", "T"],
+                plainAnswer: ["C", "L", "O", "S", "E", "T"]
+            },
+            {
+                question: "You open this to enter a room. (Bạn mở gì để bước vào phòng?)",
+                answer: ["D", "O", "O", "R"],
+                plainAnswer: ["D", "O", "O", "R"]
+            },
+            {
+                question: "You sit on this in the living room. (Bạn ngồi trên cái này trong phòng khách.)",
+                answer: ['S', 'O', 'F', 'A'],
+                plainAnswer: ['S', 'O', 'F', 'A'] // SOFA
+            },
+            {
+                question: "You eat your meals at this. (Bạn ăn bữa ăn của mình ở cái này.)",
+                answer: ['T', 'A', 'B', 'L', 'E'],
+                plainAnswer: ['T', 'A', 'B', 'L', 'E'] // TABLE
+            },
+            {
+                question: "You cook food in this room. (Bạn nấu ăn trong phòng này.)",
+                answer: ['K', 'I', 'T', 'C', 'H', 'E', 'N'],
+                plainAnswer: ['K', 'I', 'T', 'C', 'H', 'E', 'N'] // KITCHEN
+            },
+            {
+                question: "You wash your hands and face here. (Bạn rửa tay và mặt ở đây.)",
+                answer: ['S', 'I', 'N', 'K'],
+                plainAnswer: ['S', 'I', 'N', 'K'] // SINK
+            },
+            {
+                question: "You look out through this to see outside. (Bạn nhìn ra ngoài qua cái này.)",
+                answer: ['W', 'I', 'N', 'D', 'O', 'W'],
+                plainAnswer: ['W', 'I', 'N', 'D', 'O', 'W'] // WINDOW
+            },
+
+            // Unit 9: In the City (Trong thành phố) - 10 questions
+            {
+                question: "You read books here. (Bạn thường đọc sách ở đâu?)",
+                answer: ['L', 'I', 'B', 'R', 'A', 'R', 'Y'],
+                plainAnswer: ['L', 'I', 'B', 'R', 'A', 'R', 'Y'] // LIBRARY
+            },
+            {
+                question: "You see animals here. (Bạn có thể nhìn thấy động vật ở đâu?)",
+                answer: ['Z', 'O', 'O'],
+                plainAnswer: ['Z', 'O', 'O'] // ZOO
+            },
+            {
+                question: "You buy things here. (Bạn mua sắm ở đâu?)",
+                answer: ['S', 'H', 'O', 'P'],
+                plainAnswer: ['S', 'H', 'O', 'P'] // SHOP
+            },
+            {
+                question: "You go here when you are sick. (Bạn đến đây khi bị bệnh.)",
+                answer: ["H", "O", "S", "P", "I", "T", "A", "L"],
+                plainAnswer: ["H", "O", "S", "P", "I", "T", "A", "L"]
+            },
+            {
+                question: "You send letters from here. (Bạn gửi thư từ đây.)",
+                answer: ["P", "O", "S", "T"],
+                plainAnswer: ["P", "O", "S", "T"]
+            },
+            {
+                question: "You go here to swim. (Bạn đến đây để bơi.)",
+                answer: ['P','O','O','L'],
+                plainAnswer: ['P','O','O','L']
+            },
+            {
+                question: "You go here to watch a movie. (Bạn đến đây để xem phim.)",
+                answer: ['C','I','N','E','M','A'],
+                plainAnswer: ['C','I','N','E','M','A']
+            },
+            {
+                question: "A tall building in a city. (Một tòa nhà cao ở thành phố.)",
+                answer: ['S', 'K', 'Y', 'S', 'C', 'R', 'A', 'P', 'E', 'R'],
+                plainAnswer: ['S', 'K', 'Y', 'S', 'C', 'R', 'A', 'P', 'E', 'R'] // SKYSCRAPER
+            },
+            {
+                question: "You wait here to catch a bus. (Bạn chờ ở đây để bắt xe buýt.)",
+                answer: ['B', 'U', 'S', 'S', 'T', 'O', 'P'],
+                plainAnswer: ['B', 'U', 'S', 'S', 'T', 'O', 'P'] // BUS STOP
+            },
+            {
+                question: "A large area of grass where people can relax. (Một khu vực cỏ lớn nơi mọi người có thể thư giãn.)",
+                answer: ['P', 'A', 'R', 'K'],
+                plainAnswer: ['P', 'A', 'R', 'K'] // PARK
+            },
+
+            // Unit 10: Nature (Thiên nhiên) - 10 questions
+            {
+                question: "It shines in the sky during the day. (Nó chiếu sáng trên trời vào ban ngày.)",
+                answer: ['S', 'U', 'N'],
+                plainAnswer: ['S', 'U', 'N'] // SUN
+            },
+            {
+                question: "It falls from the sky when it rains. (Thứ gì rơi xuống khi trời mưa?)",
+                answer: ['R', 'A', 'I', 'N'],
+                plainAnswer: ['R', 'A', 'I', 'N'] // RAIN
+            },
+            {
+                question: "It grows in the garden and is colorful. (Nó mọc trong vườn và có màu sắc rực rỡ.)",
+                answer: ['F', 'L', 'O', 'W', 'E', 'R'],
+                plainAnswer: ['F', 'L', 'O', 'W', 'E', 'R'] // FLOWER
+            },
+            {
+                question: "It lights up the night sky. (Nó chiếu sáng bầu trời ban đêm.)",
+                answer: ["M", "O", "O", "N"],
+                plainAnswer: ["M", "O", "O", "N"]
+            },
+            {
+                question: "You see this in the sky after rain. (Bạn thấy cái này trên trời sau mưa.)",
+                answer: ["R", "A", "I", "N", "B", "O", "W"],
+                plainAnswer: ["R", "A", "I", "N", "B", "O", "W"]
+            },
+            {
+                question: "A very tall plant with a trunk and leaves. (Một loại cây rất cao có thân và lá.)",
+                answer: ['T', 'R', 'E', 'E'],
+                plainAnswer: ['T', 'R', 'E', 'E'] // TREE
+            },
+            {
+                question: "A large area of salty water. (Một khu vực rộng lớn có nước mặn.)",
+                answer: ['O', 'C', 'E', 'A', 'N'],
+                plainAnswer: ['O', 'C', 'E', 'A', 'N'] // OCEAN
+            },
+            {
+                question: "A small flowing body of water. (Một dòng nước nhỏ chảy.)",
+                answer: ['R', 'I', 'V', 'E', 'R'],
+                plainAnswer: ['R', 'I', 'V', 'E', 'R'] // RIVER
+            },
+            {
+                question: "It covers the ground in winter and is white. (Nó bao phủ mặt đất vào mùa đông và có màu trắng.)",
+                answer: ['S', 'N', 'O', 'W'],
+                plainAnswer: ['S', 'N', 'O', 'W'] // SNOW
+            },
+            {
+                question: "It makes things visible. (Nó làm cho mọi thứ có thể nhìn thấy được.)",
+                answer: ['L', 'I', 'G', 'H', 'T'],
+                plainAnswer: ['L', 'I', 'G', 'H', 'T'] // LIGHT
+            },
+
+            // Unit 11: Actions (Hành động) - 10 questions
+            {
+                question: "You do this when you’re tired. (Bạn làm điều này khi mệt.)",
+                answer: ['S', 'L', 'E', 'E', 'P'],
+                plainAnswer: ['S', 'L', 'E', 'E', 'P'] // SLEEP
+            },
+            {
+                question: "You do this with your mouth when you're happy. (Bạn thường làm gì với miệng khi bạn vui?)",
+                answer: ['S', 'M', 'I', 'L', 'E'],
+                plainAnswer: ['S', 'M', 'I', 'L', 'E'] // SMILE
+            },
+            {
+                question: "You do this to move your body fast. (Bạn làm gì để di chuyển nhanh?)",
+                answer: ['R', 'U', 'N'],
+                plainAnswer: ['R', 'U', 'N'] // RUN
+            },
+            {
+                question: "You do this with your eyes at night. (Bạn làm điều này với mắt vào ban đêm.)",
+                answer: ["C", "L", "O", "S", "E"],
+                plainAnswer: ["C", "L", "O", "S", "E"]
+            },
+            {
+                question: "You do this with your legs when you play. (Bạn làm điều này với chân khi chơi.)",
+                answer: ["J", "U", "M", "P"],
+                plainAnswer: ["J", "U", "M", "P"]
+            },
+            {
+                question: "You do this with your voice to make sounds. (Bạn làm điều này với giọng nói của mình để tạo ra âm thanh.)",
+                answer: ['S', 'I', 'N', 'G'],
+                plainAnswer: ['S', 'I', 'N', 'G'] // SING
+            },
+            {
+                question: "You do this with a book. (Bạn làm điều này với một cuốn sách.)",
+                answer: ['R', 'E', 'A', 'D'],
+                plainAnswer: ['R', 'E', 'A', 'D'] // READ
+            },
+            {
+                question: "You do this with your feet to music. (Bạn làm điều này với đôi chân của mình theo nhạc.)",
+                answer: ['D', 'A', 'N', 'C', 'E'],
+                plainAnswer: ['D', 'A', 'N', 'C', 'E'] // DANCE
+            },
+            {
+                question: "You use a pen or pencil for this. (Bạn dùng bút mực hoặc bút chì cho việc này.)",
+                answer: ['W', 'R', 'I', 'T', 'E'],
+                plainAnswer: ['W', 'R', 'I', 'T', 'E'] // WRITE
+            },
+            {
+                question: "You do this when you are hungry. (Bạn làm điều này khi đói.)",
+                answer: ['E', 'A', 'T'],
+                plainAnswer: ['E', 'A', 'T'] // EAT
+            },
+
+            // Unit 12: Daily Routines (Hoạt động hàng ngày) - 5 questions
+            {
+                question: "You do this with your teeth every morning. (Bạn làm điều này với răng mỗi sáng.)",
+                answer: ['B', 'R', 'U', 'S', 'H'],
+                plainAnswer: ['B', 'R', 'U', 'S', 'H'] // BRUSH
+            },
+            {
+                question: "You do this after you wake up. (Bạn làm điều này sau khi thức dậy.)",
+                answer: ['G', 'E', 'T', 'U', 'P'],
+                plainAnswer: ['G', 'E', 'T', 'U', 'P'] // GETUP
+            },
+            {
+                question: "You do this before you sleep. (Bạn làm điều này trước khi ngủ.)",
+                answer: ['W', 'A', 'S', 'H'],
+                plainAnswer: ['W', 'A', 'S', 'H'] // WASH
+            },
+            {
+                question: "You do this to your hair to make it neat. (Bạn làm điều này với tóc để làm cho nó gọn gàng.)",
+                answer: ['C', 'O', 'M', 'B'],
+                plainAnswer: ['C', 'O', 'M', 'B'] // COMB
+            },
+            {
+                question: "You put these on when you get dressed. (Bạn mặc những thứ này vào khi bạn thay quần áo.)",
+                answer: ['C', 'L', 'O', 'T', 'H', 'E', 'S'],
+                plainAnswer: ['C', 'L', 'O', 'T', 'H', 'E', 'S'] // CLOTHES
+            },
+
+            // Unit 13: Transportation (Phương tiện) - 5 questions
+            {
+                question: "It has two wheels and you pedal it. (Nó có hai bánh và bạn đạp nó.)",
+                answer: ['B', 'I', 'K', 'E'],
+                plainAnswer: ['B', 'I', 'K', 'E'] // BIKE
+            },
+            {
+                question: "It flies in the sky and carries people. (Nó bay trên trời và chở người.)",
+                answer: ['P', 'L', 'A', 'N', 'E'],
+                plainAnswer: ['P', 'L', 'A', 'N', 'E'] // PLANE
+            },
+            {
+                question: "It moves on roads and has four wheels. (Nó chạy trên đường và có bốn bánh.)",
+                answer: ['C', 'A', 'R'],
+                plainAnswer: ['C', 'A', 'R'] // CAR
+            },
+            {
+                question: "A large vehicle that carries many people. (Một phương tiện lớn chở nhiều người.)",
+                answer: ['B', 'U', 'S'],
+                plainAnswer: ['B', 'U', 'S'] // BUS
+            },
+            {
+                question: "A vehicle that runs on rails. (Một phương tiện chạy trên đường ray.)",
+                answer: ['T', 'R', 'A', 'I', 'N'],
+                plainAnswer: ['T', 'R', 'A', 'I', 'N'] // TRAIN
+            },
+            // New question added
+            {
+                question: "What do you ride on water? (Bạn đi trên gì ở dưới nước?)",
+                answer: ['B', 'O', 'A', 'T'],
+                plainAnswer: ['B', 'O', 'A', 'T']
+            },
+
+            // Unit 14: Feelings (Cảm xúc) - 5 questions
+            {
+                question: "You feel this when you get a gift. (Bạn thường cảm thấy thế nào khi nhận được quà?)",
+                answer: ['H', 'A', 'P', 'P', 'Y'],
+                plainAnswer: ['H', 'A', 'P', 'P', 'Y'] // HAPPY
+            },
+            {
+                question: "You feel this when you lose something. (Bạn thấy thế nào khi làm mất đồ?)",
+                answer: ['S', 'A', 'D'],
+                plainAnswer: ['S', 'A', 'D'] // SAD
+            },
+            {
+                question: "You feel this before a test. (Trước bài kiểm tra, bạn thường cảm thấy như thế nào?)",
+                answer: ['N', 'E', 'R', 'V', 'O', 'U', 'S'],
+                plainAnswer: ['N', 'E', 'R', 'V', 'O', 'U', 'S'] // NERVOUS
+            },
+            {
+                question: "You feel this when something surprises you. (Bạn cảm thấy thế nào khi có điều gì đó bất ngờ?)",
+                answer: ['S', 'U', 'R', 'P', 'R', 'I', 'S', 'E', 'D'],
+                plainAnswer: ['S', 'U', 'R', 'P', 'R', 'I', 'S', 'E', 'D'] // SURPRISED
+            },
+            {
+                question: "You feel this when you've done a lot of work. (Bạn cảm thấy thế nào khi đã làm rất nhiều việc?)",
+                answer: ['T', 'I', 'R', 'E', 'D'],
+                plainAnswer: ['T', 'I', 'R', 'E', 'D'] // TIRED
+            },
+
+            // Unit 15: Weather (Thời tiết) - 5 questions
+            {
+                question: "It's hot and sunny. (Thời tiết như thế nào khi trời nắng nóng?)",
+                answer: ['S', 'U', 'N', 'N', 'Y'],
+                plainAnswer: ['S', 'U', 'N', 'N', 'Y'] // SUNNY
+            },
+            {
+                question: "Clouds and rain are coming. (Trời đầy mây và sắp mưa.)",
+                answer: ['C', 'L', 'O', 'U', 'D', 'Y'],
+                plainAnswer: ['C', 'L', 'O', 'U', 'D', 'Y'] // CLOUDY
+            },
+            {
+                question: "White flakes fall from the sky. (Những bông trắng rơi từ trời xuống.)",
+                answer: ['S', 'N', 'O', 'W'],
+                plainAnswer: ['S', 'N', 'O', 'W'] // SNOW
+            },
+            {
+                question: "When the wind blows strongly. (Khi gió thổi mạnh.)",
+                answer: ['W', 'I', 'N', 'D', 'Y'],
+                plainAnswer: ['W', 'I', 'N', 'D', 'Y'] // WINDY
+            },
+            {
+                question: "When it's very cold and everything is frozen. (Khi trời rất lạnh và mọi thứ đóng băng.)",
+                answer: ['I', 'C', 'Y'],
+                plainAnswer: ['I', 'C', 'Y'] // ICY
+            },
+
+            // Unit 16: Colors & Numbers - 10 questions
+            {
+                question: "Color of grass. (Màu của cỏ là gì?)",
+                answer: ['G', 'R', 'E', 'E', 'N'],
+                plainAnswer: ['G', 'R', 'E', 'E', 'N'] // GREEN
+            },
+            {
+                question: "Number after five. (Số sau số năm là gì?)",
+                answer: ['S', 'I', 'X'],
+                plainAnswer: ['S', 'I', 'X'] // SIX
+            },
+            {
+                question: "Color of fire trucks. (Xe cứu hỏa màu gì?)",
+                answer: ['R', 'E', 'D'],
+                plainAnswer: ['R', 'E', 'D'] // RED
+            },
+            {
+                question: "Color of bananas. (Màu của quả chuối là gì?)",
+                answer: ['Y','E','L','L','O','W'],
+                plainAnswer: ['Y','E','L','L','O','W']
+            },
+            {
+                question: "Number before ten. (Số trước số mười là gì?)",
+                answer: ['N', 'I', 'N', 'E'],
+                plainAnswer: ['N', 'I', 'N', 'E'] // NINE
+            },
+            {
+                question: "Color of the sky at night. (Màu của bầu trời vào ban đêm.)",
+                answer: ['B', 'L', 'A', 'C', 'K'],
+                plainAnswer: ['B', 'L', 'A', 'C', 'K'] // BLACK
+            },
+            {
+                question: "Color of snow. (Màu của tuyết.)",
+                answer: ['W', 'H', 'I', 'T', 'E'],
+                plainAnswer: ['W', 'H', 'I', 'T', 'E'] // WHITE
+            },
+            {
+                question: "The number of fingers on one hand. (Số ngón tay trên một bàn tay.)",
+                answer: ['F', 'I', 'V', 'E'],
+                plainAnswer: ['F', 'I', 'V', 'E'] // FIVE
+            },
+            {
+                question: "The color of an orange. (Màu của quả cam.)",
+                answer: ['O', 'R', 'A', 'N', 'G', 'E'],
+                plainAnswer: ['O', 'R', 'A', 'N', 'G', 'E'] // ORANGE
+            },
+            {
+                question: "The number after one. (Số sau số một.)",
+                answer: ['T', 'W', 'O'],
+                plainAnswer: ['T', 'W', 'O'] // TWO
+            },
+
+            // Unit 17: Jobs (Nghề nghiệp) - 5 questions
+            {
+                question: "Who teaches you at school? (Ai dạy bạn ở trường?)",
+                answer: ['T', 'E', 'A', 'C', 'H', 'E', 'R'],
+                plainAnswer: ['T', 'E', 'A', 'C', 'H', 'E', 'R'] // TEACHER
+            },
+            {
+                question: "Who helps sick people in the hospital? (Ai giúp người bệnh ở bệnh viện?)",
+                answer: ['D', 'O', 'C', 'T', 'O', 'R'],
+                plainAnswer: ['D', 'O', 'C', 'T', 'O', 'R'] // DOCTOR
+            },
+            {
+                question: "Who puts out fires? (Ai dập tắt lửa?)",
+                answer: ['F', 'I', 'R', 'E', 'F', 'I', 'G', 'H', 'T', 'E', 'R'],
+                plainAnswer: ['F', 'I', 'R', 'E', 'F', 'I', 'G', 'H', 'T', 'E', 'R'] // FIREFIGHTER
+            },
+            {
+                question: "Who serves food in a restaurant? (Ai phục vụ đồ ăn trong nhà hàng?)",
+                answer: ['W', 'A', 'I', 'T', 'E', 'R'],
+                plainAnswer: ['W', 'A', 'I', 'T', 'E', 'R'] // WAITER
+            },
+            {
+                question: "Who bakes bread and cakes? (Ai nướng bánh mì và bánh ngọt?)",
+                answer: ['B', 'A', 'K', 'E', 'R'],
+                plainAnswer: ['B', 'A', 'K', 'E', 'R'] // BAKER
+            },
+
+            // Unit 18: Opposites (Từ trái nghĩa) - 5 questions
+            {
+                question: "What is the opposite of 'hot'? (Từ trái nghĩa với 'hot' là gì?)",
+                answer: ['C', 'O', 'L', 'D'],
+                plainAnswer: ['C', 'O', 'L', 'D'] // COLD
+            },
+            {
+                question: "Opposite of big. (Trái nghĩa với 'to')",
+                answer: ['S','M','A','L','L'],
+                plainAnswer: ['S','M','A','L','L']
+            },
+            {
+                question: "Opposite of slow. (Trái nghĩa với 'chậm')",
+                answer: ['F','A','S','T'],
+                plainAnswer: ['F','A','S','T']
+            },
+            {
+                question: "Opposite of 'up'. (Trái nghĩa với 'lên')",
+                answer: ['D', 'O', 'W', 'N'],
+                plainAnswer: ['D', 'O', 'W', 'N'] // DOWN
+            },
+            {
+                question: "Opposite of 'day'. (Trái nghĩa với 'ban ngày')",
+                answer: ['N', 'I', 'G', 'H', 'T'],
+                plainAnswer: ['N', 'I', 'G', 'H', 'T'] // NIGHT
+            },
+
+            // Unit 19: Time (Thời gian) - 5 questions
+            {
+                question: "The part of the day when the sun rises. (Phần của ngày khi mặt trời mọc.)",
+                answer: ['M', 'O', 'R', 'N', 'I', 'N', 'G'],
+                plainAnswer: ['M', 'O', 'R', 'N', 'I', 'N', 'G'] // MORNING
+            },
+            {
+                question: "The part of the day when the sun sets. (Phần của ngày khi mặt trời lặn.)",
+                answer: ['E', 'V', 'E', 'N', 'I', 'N', 'G'],
+                plainAnswer: ['E', 'V', 'E', 'N', 'I', 'N', 'G'] // EVENING
+            },
+            {
+                question: "What comes after today? (Điều gì đến sau hôm nay?)",
+                answer: ['T', 'O', 'M', 'O', 'R', 'R', 'O', 'W'],
+                plainAnswer: ['T', 'O', 'M', 'O', 'R', 'R', 'O', 'W'] // TOMORROW
+            },
+            {
+                question: "What comes before today? (Điều gì đến trước hôm nay?)",
+                answer: ['Y', 'E', 'S', 'T', 'E', 'R', 'D', 'A', 'Y'],
+                plainAnswer: ['Y', 'E', 'S', 'T', 'E', 'R', 'D', 'A', 'Y'] // YESTERDAY
+            },
+            {
+                question: "There are seven of these in a week. (Có bảy cái này trong một tuần.)",
+                answer: ['D', 'A', 'Y', 'S'],
+                plainAnswer: ['D', 'A', 'Y', 'S'] // DAYS
+            },
+
+            // Unit 20: Places (Địa điểm) - 5 questions
+            {
+                question: "Where you go to buy food. (Bạn đi đâu để mua đồ ăn?)",
+                answer: ['S', 'U', 'P', 'E', 'R', 'M', 'A', 'R', 'K', 'E', 'T'],
+                plainAnswer: ['S', 'U', 'P', 'E', 'R', 'M', 'A', 'R', 'K', 'E', 'T'] // SUPERMARKET
+            },
+            {
+                question: "Where you go to play with friends. (Bạn đi đâu để chơi với bạn bè?)",
+                answer: ['P', 'A', 'R', 'K'],
+                plainAnswer: ['P', 'A', 'R', 'K'] // PARK (duplicate, good to keep context for places)
+            },
+            {
+                question: "Where you learn to swim. (Bạn học bơi ở đâu?)",
+                answer: ['S', 'W', 'I', 'M', 'M', 'I', 'N', 'G', 'P', 'O', 'O', 'L'],
+                plainAnswer: ['S', 'W', 'I', 'M', 'M', 'I', 'N', 'G', 'P', 'O', 'O', 'L'] // SWIMMINGPOOL
+            },
+            {
+                question: "Where you can see many old things and art. (Bạn có thể nhìn thấy nhiều đồ cổ và nghệ thuật ở đâu?)",
+                answer: ['M', 'U', 'S', 'E', 'U', 'M'],
+                plainAnswer: ['M', 'U', 'S', 'E', 'U', 'M'] // MUSEUM
+            },
+            {
+                question: "Where you can catch a train. (Bạn có thể bắt tàu ở đâu?)",
+                answer: ['S', 'T', 'A', 'T', 'I', 'O', 'N'],
+                plainAnswer: ['S', 'T', 'A', 'T', 'I', 'O', 'N'] // STATION
+            }
+        ];
+
         let currentQuestionIndex = 0;
         let score = 0;
         let currentAnswer = '';
         let usedLetters = [];
         let selectedQuestions = [];
         const totalQuestions = 10;
+        
         function initGame() {
             selectRandomQuestions();
             loadQuestion(selectedQuestions[currentQuestionIndex]);
             updateScore();
             setupKeyboard();
         }
+        
         function selectRandomQuestions() {
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, totalQuestions);
         }
+        
         function loadQuestion(question) {
             currentAnswer = question.plainAnswer.join('');
             usedLetters = [];
@@ -355,6 +1112,7 @@
             resetKeyboard();
             document.getElementById('character').style.left = '20px';
         }
+        
         function createBlanks() {
             const blanksContainer = document.getElementById('blanks');
             blanksContainer.innerHTML = '';
@@ -365,48 +1123,63 @@
                 blanksContainer.appendChild(blank);
             }
         }
+        
         function setupKeyboard() {
             const keyboard = document.getElementById('keyboard');
-            if (keyboard.children.length === 0) {
-                for (let i = 65; i <= 90; i++) {
-                    const letter = String.fromCharCode(i);
-                    const key = document.createElement('div');
-                    key.className = 'key';
-                    key.textContent = letter;
-                    key.id = `key-${letter}`;
-                    key.addEventListener('click', () => handleGuess(letter));
-                    keyboard.appendChild(key);
-                }
+            keyboard.innerHTML = '';
+            for (let i = 65; i <= 90; i++) {
+                const letter = String.fromCharCode(i);
+                const key = document.createElement('div');
+                key.className = 'key';
+                key.textContent = letter;
+                key.id = `key-${letter}`;
+                key.addEventListener('click', () => handleGuess(letter));
+                keyboard.appendChild(key);
             }
         }
+        
         function resetKeyboard() {
-            document.querySelectorAll('.key').forEach(key => key.classList.remove('used'));
+            document.querySelectorAll('.key').forEach(key => {
+                key.classList.remove('used');
+            });
         }
+        
         function handleGuess(letter) {
             if (usedLetters.includes(letter)) return;
+            
             usedLetters.push(letter);
             document.getElementById(`key-${letter}`).classList.add('used');
+            
             if (currentAnswer.includes(letter)) {
                 updateBlanks(letter);
-                moveCharacter(true);
+                
                 if (checkComplete()) {
                     score++;
                     updateScore();
+                    
+                    // Di chuyển em bé đến trường
+                    moveCharacterToCastle();
+                    
+                    // Pháo hoa chào mừng
+                    showFireworks();
+                    
                     setTimeout(() => {
                         currentQuestionIndex++;
                         if (currentQuestionIndex < selectedQuestions.length) {
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
                         } else {
-                            showFireworks();
                             alert(`Chúc mừng! Bạn đã hoàn thành trò chơi với ${score} điểm!`);
                             resetGame();
                         }
-                    }, 1000);
+                    }, 2000);
+                } else {
+                    moveCharacter(true);
                 }
             } else {
                 moveCharacter(false);
             }
         }
+        
         function updateBlanks(letter) {
             for (let i = 0; i < currentAnswer.length; i++) {
                 if (currentAnswer[i] === letter) {
@@ -414,27 +1187,50 @@
                 }
             }
         }
+        
         function moveCharacter(forward) {
             const character = document.getElementById('character');
             const currentLeft = parseInt(character.style.left) || 20;
             const step = 30;
             const characterWidth = character.offsetWidth;
-            const castleLeft = document.querySelector('.castle').offsetLeft;
+            const castle = document.querySelector('.castle');
+            const castleLeft = castle.offsetLeft;
             const maxLeft = castleLeft - characterWidth - 20;
+            
             const newLeft = forward
                 ? Math.min(currentLeft + step, maxLeft)
                 : Math.max(currentLeft - step, 20);
+                
             character.style.left = `${newLeft}px`;
         }
+        
+        function moveCharacterToCastle() {
+            const character = document.getElementById('character');
+            const castle = document.querySelector('.castle');
+            const castleLeft = castle.offsetLeft;
+            const characterWidth = character.offsetWidth;
+            const targetLeft = castleLeft - characterWidth - 10;
+            
+            character.style.transition = 'left 1.5s ease-in-out';
+            character.style.left = `${targetLeft}px`;
+            
+            // Reset transition sau khi di chuyển xong
+            setTimeout(() => {
+                character.style.transition = 'left 0.5s ease-out';
+            }, 1500);
+        }
+        
         function checkComplete() {
             for (let i = 0; i < currentAnswer.length; i++) {
                 if (!document.getElementById(`blank-${i}`).textContent) return false;
             }
             return true;
         }
+        
         function updateScore() {
             document.getElementById('score').textContent = `Điểm: ${score}`;
         }
+        
         function resetGame() {
             currentQuestionIndex = 0;
             score = 0;
@@ -442,8 +1238,86 @@
             loadQuestion(selectedQuestions[currentQuestionIndex]);
             updateScore();
         }
+        
+        function showFireworks() {
+            const celebration = document.getElementById('fireworks');
+            celebration.innerHTML = '';
+            celebration.style.display = 'block';
+            
+            // Tạo hiệu ứng pháo hoa
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFirework();
+                }, i * 100);
+            }
+            
+            // Ẩn hiệu ứng sau 3 giây
+            setTimeout(() => {
+                celebration.style.display = 'none';
+            }, 3000);
+        }
+        
+        function createFirework() {
+            const celebration = document.getElementById('fireworks');
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            
+            // Random màu sắc
+            const colors = ['#FF5252', '#FFD740', '#69F0AE', '#40C4FF', '#7C4DFF'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            firework.style.backgroundColor = randomColor;
+            firework.style.left = `${Math.random() * 100}%`;
+            firework.style.top = `${80 + Math.random() * 20}%`;
+            
+            celebration.appendChild(firework);
+            
+            // Tạo các tia pháo hoa
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createFireworkParticle(firework.style.left, firework.style.top, randomColor);
+                }, 100);
+            }
+            
+            // Xóa pháo hoa sau khi hiệu ứng kết thúc
+            setTimeout(() => {
+                firework.remove();
+            }, 1000);
+        }
+        
+        function createFireworkParticle(left, top, color) {
+            const celebration = document.getElementById('fireworks');
+            const particle = document.createElement('div');
+            particle.className = 'firework';
+            particle.style.backgroundColor = color;
+            particle.style.left = left;
+            particle.style.top = top;
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            
+            // Random hướng bay
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 50 + Math.random() * 50;
+            const translateX = Math.cos(angle) * distance;
+            const translateY = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--tx', `${translateX}px`);
+            particle.style.setProperty('--ty', `${translateY}px`);
+            particle.style.animation = 'fireworkParticle 0.8s forwards';
+            
+            celebration.appendChild(particle);
+            
+            // Xóa particle sau khi hiệu ứng kết thúc
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+        
+        // Khởi tạo trò chơi
         document.getElementById('reset').addEventListener('click', resetGame);
         window.addEventListener('DOMContentLoaded', initGame);
+        
+        // Xử lý sự kiện bàn phím
         document.addEventListener('keydown', (e) => {
             const key = e.key.toUpperCase();
             if (/^[A-Z]$/.test(key)) {
@@ -457,81 +1331,6 @@
                 }
             }
         });
-    
-    // Hiển thị pháo hoa khi hoàn thành trò chơi
-    function showFireworks() {
-        const container = document.getElementById("fireworks");
-        const canvas = document.getElementById("fireworkCanvas");
-        container.style.display = "block";
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const fireworks = [];
-        function Firework() {
-            this.x = Math.random() * canvas.width;
-            this.y = canvas.height;
-            this.targetY = Math.random() * canvas.height / 2;
-            this.radius = 2;
-            this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            this.dy = -Math.random() * 3 - 2;
-        }
-
-        Firework.prototype.update = function () {
-            this.y += this.dy;
-            if (this.y <= this.targetY) {
-                for (let i = 0; i < 50; i++) {
-                    fireworks.push(new Particle(this.x, this.y, this.color));
-                }
-                return false;
-            }
-            return true;
-        };
-
-        function Particle(x, y, color) {
-            this.x = x;
-            this.y = y;
-            this.radius = 1 + Math.random();
-            this.color = color;
-            this.dx = (Math.random() - 0.5) * 6;
-            this.dy = (Math.random() - 0.5) * 6;
-            this.alpha = 1;
-        }
-
-        Particle.prototype.update = function () {
-            this.x += this.dx;
-            this.y += this.dy;
-            this.alpha -= 0.02;
-            return this.alpha > 0;
-        };
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (Math.random() < 0.05) fireworks.push(new Firework());
-            for (let i = fireworks.length - 1; i >= 0; i--) {
-                const f = fireworks[i];
-                if (!f.update()) fireworks.splice(i, 1);
-                ctx.globalAlpha = f.alpha || 1;
-                ctx.beginPath();
-                ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
-                ctx.fillStyle = f.color;
-                ctx.fill();
-            }
-            ctx.globalAlpha = 1;
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        setTimeout(() => {
-            container.style.display = "none";
-        }, 6000);
-    }
-
-</script>
-
-<div id="fireworks" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1000;display:none;">
-    <canvas id="fireworkCanvas" style="width:100%;height:100%;"></canvas>
-</div>
-
+    </script>
 </body>
 </html>
