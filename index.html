@@ -21,14 +21,14 @@
         .game-container {
             position: relative;
             width: 100%;
-            max-width: 900px; /* Max width for desktop screens */
+            max-width: 900px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background: rgba(255, 255, 255, 0.2); /* Slightly transparent background for container */
-            border-radius: 0; /* Không bo góc */
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0;
             box-shadow: 0 0 30px rgba(0,0,0,0.1);
-            overflow: hidden; /* Ensure elements don't spill out */
+            overflow: hidden;
         }
         .character {
             position: absolute;
@@ -66,13 +66,12 @@
             object-fit: contain;
             filter: drop_shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
-        /* === CSS ĐÃ SỬA === */
         .content-wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
             padding: 20px;
-            padding-top: 20px; /* Giảm padding-top xuống */
+            padding-top: 20px;
             margin-bottom: 200px;
             z-index: 5;
             align-items: center;
@@ -158,11 +157,10 @@
             cursor: not-allowed;
             transform: none;
         }
-        /* === CSS ĐÃ SỬA === */
         .controls {
             margin-bottom: 15px;
             display: flex;
-            justify-content: space-between; /* Đổi thành space-between để căng đều */
+            justify-content: space-between;
             align-items: center;
             padding: 0 10px;
             width: 100%;
@@ -178,8 +176,8 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            flex-grow: 1; /* Cho phép các nút "Chơi lại" và "Mở/Tắt âm thanh" co giãn */
-            margin: 0 5px; /* Thêm khoảng cách giữa các nút */
+            flex-grow: 1;
+            margin: 0 5px;
         }
         .btn:hover {
             background: #45a049;
@@ -195,9 +193,9 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             border: 2px solid rgba(255, 215, 0, 0.5);
             backdrop-filter: blur(10px);
-            flex-grow: 2; /* Cho phép điểm số to hơn và nằm giữa */
+            flex-grow: 2;
             text-align: center;
-            margin: 0 5px; /* Thêm khoảng cách giữa các nút */
+            margin: 0 5px;
         }
         .score-container::before {
             content: "⭐ ";
@@ -216,7 +214,6 @@
             align-items: flex-start;
             padding-top: 10px;
             box-sizing: border-box;
-            /* Đảm bảo các góc dưới của cỏ là vuông theo mặc định */
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -295,17 +292,16 @@
             text-align: center;
             font-size: 14px;
             color: #FFFFFF;
-            z-index: 12; /* Đã chỉnh để nằm trên cỏ hoa */
+            z-index: 12;
             font-weight: bold;
             text-shadow: none;
         }
 
-        /* Media Queries for larger screens (e.g., desktop) */
         @media (min-width: 768px) {
             .game-container {
                 min-height: 80vh;
                 margin: 50px auto;
-                border-radius: 0; /* Không bo góc cho desktop */
+                border-radius: 0;
             }
             .character {
                 bottom: 60px;
@@ -352,7 +348,6 @@
             }
         }
 
-        /* Media query for short screens (e.g., landscape phone) */
         @media (max-height: 600px) {
             .content-wrapper {
                 padding-top: 10px;
@@ -368,17 +363,15 @@
                 margin-top: 10px;
             }
              .character, .castle {
-                bottom: 40px; /* Raise character slightly */
+                bottom: 40px;
             }
             .grass-road {
                 height: 100px;
-                /* Đảm bảo cỏ vuông góc trên màn hình nhỏ */
                 border-bottom-left-radius: 0 !important;
                 border-bottom-right-radius: 0 !important;
             }
-            /* Thêm hoặc cập nhật quy tắc này để đảm bảo game-container cũng không bo góc ở dưới trên màn hình nhỏ */
             .game-container {
-                border-radius: 0 !important; /* Loại bỏ tất cả bo góc */
+                border-radius: 0 !important;
             }
         }
 
@@ -392,30 +385,28 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            flex-grow: 1; /* Cho phép co giãn */
-            margin: 0 5px; /* Thêm khoảng cách giữa các nút */
+            flex-grow: 1;
+            margin: 0 5px;
         }
         .sound-toggle-btn:hover {
             background: #E64A19;
             transform: scale(1.05);
         }
     
-.sun-overlay {
-    position: absolute;
-    top: -70px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 60px;
-    z-index: 3;
-    pointer-events: none;
-}
-
-</style>
+        .sun-overlay {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            z-index: 3;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <div class="game-container">
-        
         <div class="content-wrapper">
             <div class="controls">
                 <button class="btn" id="reset">Chơi lại</button>
@@ -445,38 +436,19 @@
         <div id="fireworks"></div>
         <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
     </div>
-    <script>
-        // Sample questions - Thay thế bằng file questions.js thực tế của bạn
-        const allQuestions = [
-            {
-                question: "Con vật gì có 4 chân và sủa 'woof woof'?",
-                plainAnswer: ['D', 'O', 'G']
-            },
-            {
-                question: "Quả gì màu đỏ và rất ngọt?",
-                plainAnswer: ['A', 'P', 'P', 'L', 'E']
-            },
-            {
-                question: "Con vật gì có vòi và to lớn?",
-                plainAnswer: ['E', 'L', 'E', 'P', 'H', 'A', 'N', 'T']
-            },
-            {
-                question: "Màu gì của bầu trời?",
-                plainAnswer: ['B', 'L', 'U', 'E']
-            },
-            {
-                question: "Con vật gì kêu 'meow'?",
-                plainAnswer: ['C', 'A', 'T']
-            }
-        ];
 
+    <!-- Thêm liên kết đến file questions.js -->
+    <script src="questions.js"></script>
+    
+    <script>
+        // Biến allQuestions giờ đã được định nghĩa trong questions.js
         let currentQuestionIndex = 0;
         let score = 0;
         let currentAnswer = '';
         let usedLetters = [];
         let selectedQuestions = [];
-        const totalQuestions = 10;
-        let soundOn = false; // Mặc định âm thanh tắt
+        const totalQuestions = 20; // Số câu hỏi tăng lên 20
+        let soundOn = false;
         let backgroundMusic = new Audio('audio/nen.mp3');
         backgroundMusic.loop = true;
         let correctSound = new Audio('audio/correct.mp3');
@@ -491,14 +463,13 @@
             window.addEventListener('resize', updateCharacterAndCastlePosition);
             document.getElementById('soundToggle').addEventListener('click', toggleSound);
 
-            // Play background music when any key is pressed or clicked for the first time
             document.addEventListener('keydown', initialSoundPlay, { once: true });
             document.addEventListener('click', initialSoundPlay, { once: true });
         }
 
         function initialSoundPlay() {
             if (!soundOn) {
-                toggleSound(); // Turn on sound automatically on first interaction
+                toggleSound();
             }
         }
 
@@ -522,6 +493,7 @@
         }
         
         function selectRandomQuestions() {
+            // Chọn ngẫu nhiên 20 câu hỏi từ file questions.js
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, Math.min(totalQuestions, allQuestions.length));
         }
