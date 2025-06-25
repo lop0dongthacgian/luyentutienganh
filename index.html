@@ -284,6 +284,29 @@
                 opacity: 0;
             }
         }
+        
+        .temporary-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 1001;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.5);
+            animation: fadeInOut 3s forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -60%); }
+            20% { opacity: 1; transform: translate(-50%, -50%); }
+            80% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -40%); }
+        }
 
         .footer-text {
             position: absolute;
@@ -346,6 +369,10 @@
                 font-size: 24px;
                 top: 50px;
             }
+            .temporary-message {
+                font-size: 28px;
+                padding: 25px 50px;
+            }
         }
 
         @media (max-height: 600px) {
@@ -372,6 +399,10 @@
             }
             .game-container {
                 border-radius: 0 !important;
+            }
+            .temporary-message {
+                font-size: 20px;
+                padding: 15px 30px;
             }
         }
 
@@ -447,7 +478,7 @@
         let currentAnswer = '';
         let usedLetters = [];
         let selectedQuestions = [];
-        const totalQuestions = 20; // Số câu hỏi tăng lên 20
+        const totalQuestions = 20;
         let soundOn = false;
         let backgroundMusic = new Audio('audio/nen.mp3');
         backgroundMusic.loop = true;
@@ -565,8 +596,13 @@
                         if (currentQuestionIndex < selectedQuestions.length) {
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
                         } else {
-                            alert(`Chúc mừng! Bạn đã hoàn thành trò chơi với ${score} điểm!`);
-                            resetGame();
+                            // Khi hoàn thành 20 câu, chọn ngẫu nhiên 20 câu mới
+                            selectRandomQuestions();
+                            currentQuestionIndex = 0;
+                            loadQuestion(selectedQuestions[currentQuestionIndex]);
+                            
+                            // Hiển thị thông báo vòng mới
+                            showTemporaryMessage("Chúc mừng! Bắt đầu vòng mới!");
                         }
                     }, 3000); 
                 } else {
@@ -711,6 +747,18 @@
             setTimeout(() => {
                 particle.remove();
             }, 1000); 
+        }
+        
+        // Hiển thị thông báo tạm thời
+        function showTemporaryMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'temporary-message';
+            messageElement.textContent = message;
+            document.body.appendChild(messageElement);
+            
+            setTimeout(() => {
+                document.body.removeChild(messageElement);
+            }, 3000);
         }
         
         document.getElementById('reset').addEventListener('click', resetGame);
