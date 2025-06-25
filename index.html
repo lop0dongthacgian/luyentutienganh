@@ -9,7 +9,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #87CEEB 0%, #98E4FF 50%, #B8F2FF 100%);
+            background: linear-gradient(135deg, #B8E6F0 0%, #D1F2FF 50%, #E8F8FF 100%);
             overflow-x: hidden;
             user-select: none;
             touch-action: manipulation;
@@ -26,7 +26,7 @@
             display: flex;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.2); /* Slightly transparent background for container */
-            border-radius: 20px; /* Default for larger screens */
+            border-radius: 0; /* Không bo góc */
             box-shadow: 0 0 30px rgba(0,0,0,0.1);
             overflow: hidden; /* Ensure elements don't spill out */
         }
@@ -305,6 +305,7 @@
             .game-container {
                 min-height: 80vh;
                 margin: 50px auto;
+                border-radius: 0; /* Không bo góc cho desktop */
             }
             .character {
                 bottom: 60px;
@@ -444,8 +445,31 @@
         <div id="fireworks"></div>
         <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
     </div>
-    <script src="questions.js"></script>
     <script>
+        // Sample questions - Thay thế bằng file questions.js thực tế của bạn
+        const allQuestions = [
+            {
+                question: "Con vật gì có 4 chân và sủa 'woof woof'?",
+                plainAnswer: ['D', 'O', 'G']
+            },
+            {
+                question: "Quả gì màu đỏ và rất ngọt?",
+                plainAnswer: ['A', 'P', 'P', 'L', 'E']
+            },
+            {
+                question: "Con vật gì có vòi và to lớn?",
+                plainAnswer: ['E', 'L', 'E', 'P', 'H', 'A', 'N', 'T']
+            },
+            {
+                question: "Màu gì của bầu trời?",
+                plainAnswer: ['B', 'L', 'U', 'E']
+            },
+            {
+                question: "Con vật gì kêu 'meow'?",
+                plainAnswer: ['C', 'A', 'T']
+            }
+        ];
+
         let currentQuestionIndex = 0;
         let score = 0;
         let currentAnswer = '';
@@ -499,7 +523,7 @@
         
         function selectRandomQuestions() {
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-            selectedQuestions = shuffled.slice(0, totalQuestions);
+            selectedQuestions = shuffled.slice(0, Math.min(totalQuestions, allQuestions.length));
         }
         
         function loadQuestion(question) {
