@@ -33,7 +33,7 @@
         .character {
             position: absolute;
             bottom: 120px;
-            left: 0; /* Đổi từ 5% thành 0 */
+            left: 0; 
             width: 180px;
             height: 180px;
             background-image: url('image/hs.gif');
@@ -54,7 +54,7 @@
         }
         .castle {
             position: absolute;
-            right: 0; /* Đổi từ 5% thành 0 */
+            right: 0;
             bottom: 120px;
             width: 160px;
             height: 160px;
@@ -71,20 +71,21 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+            padding-top: 40px; /* Add padding top */
             margin-bottom: 240px;
             z-index: 5;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Changed from center to flex-start */
             text-align: center;
             width: 100%;
             box-sizing: border-box;
         }
         .question-container {
-            background: rgba(255, 255, 255, 0.0); /* Đặt nền trong suốt */
+            background: rgba(255, 255, 255, 0.0);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: none; /* Bỏ đổ bóng */
+            box-shadow: none;
             width: 90%;
             max-width: 600px;
         }
@@ -93,8 +94,8 @@
             text-align: center;
             margin-bottom: 10px;
             font-weight: bold;
-            color: #00008B; /* Màu xanh đậm (DarkBlue) */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Giữ bóng nhẹ */
+            color: #00008B;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         .blanks {
             display: flex;
@@ -118,9 +119,12 @@
             color: #2E7D32;
         }
         .keyboard-container {
-            margin-top: 25px;
+            margin-top: 15px; /* Reduced margin */
             width: 90%;
             max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .keyboard {
             display: flex;
@@ -154,13 +158,12 @@
             transform: none;
         }
         .controls {
-            margin-top: 25px;
+            margin-top: 20px; /* Adjusted margin to bring it closer to the keyboard */
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 10px;
-            width: 90%;
-            max-width: 600px;
+            width: 100%; /* Changed from 90% to 100% to align with keyboard container */
         }
         .btn {
             padding: 12px 24px;
@@ -197,7 +200,7 @@
             bottom: 0;
             width: 100%;
             height: 120px;
-            background-color: transparent; /* Explicitly set to transparent */
+            background-color: transparent;
             z-index: 1;
             overflow: hidden;
             display: flex;
@@ -294,13 +297,13 @@
             }
             .character {
                 bottom: 120px;
-                left: 0; /* Đổi từ 10% thành 0 */
+                left: 0;
                 width: 150px;
                 height: 150px;
             }
             .castle {
                 bottom: 120px;
-                right: 0; /* Đổi từ 10% thành 0 */
+                right: 0;
                 width: 200px;
                 height: 200px;
             }
@@ -336,6 +339,29 @@
                 top: 25px;
             }
         }
+
+        /* Media query for short screens (e.g., landscape phone) */
+        @media (max-height: 600px) {
+            .content-wrapper {
+                padding-top: 15px;
+                margin-bottom: 180px; /* reduce space for character */
+            }
+            .question-container {
+                margin-bottom: 10px;
+            }
+            .keyboard-container {
+                margin-top: 10px;
+            }
+            .controls {
+                margin-top: 15px;
+            }
+             .character, .castle {
+                bottom: 80px; /* Raise character slightly */
+            }
+            .grass-road {
+                height: 100px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -347,10 +373,10 @@
             </div>
             <div class="keyboard-container">
                 <div class="keyboard" id="keyboard"></div>
-            </div>
-            <div class="controls">
-                <button class="btn" id="reset">Chơi lại</button>
-                <div class="score-container" id="score">Điểm: 0</div>
+                <div class="controls">
+                    <button class="btn" id="reset">Chơi lại</button>
+                    <div class="score-container" id="score">Điểm: 0</div>
+                </div>
             </div>
         </div>
         <div class="grass-road">
@@ -385,10 +411,8 @@
         function updateCharacterAndCastlePosition() {
             const character = document.getElementById('character');
             const castle = document.querySelector('.castle');
-            // const gameContainer = document.querySelector('.game-container'); // Không cần dùng containerWidth ở đây nữa
-
-            character.style.left = `0px`; // Đặt là 0px
-            castle.style.right = `0px`; // Đặt là 0px
+            character.style.left = `0px`; 
+            castle.style.right = `0px`;
         }
         
         function selectRandomQuestions() {
@@ -403,7 +427,7 @@
             createBlanks();
             resetKeyboard();
             const character = document.getElementById('character');
-            character.style.left = `0px`; // Đặt là 0px
+            character.style.left = `0px`;
         }
         
         function createBlanks() {
@@ -462,7 +486,7 @@
                             alert(`Chúc mừng! Bạn đã hoàn thành trò chơi với ${score} điểm!`);
                             resetGame();
                         }
-                    }, 3000); // Rút ngắn thời gian chờ để nhanh hơn
+                    }, 3000); 
                 } else {
                     moveCharacter(true); 
                 }
@@ -482,17 +506,17 @@
         function moveCharacter(forward) {
             const character = document.getElementById('character');
             const gameContainer = document.querySelector('.game-container');
-            const currentLeft = parseFloat(character.style.left) || 0; // Đổi 5% thành 0
+            const currentLeft = parseFloat(character.style.left) || 0;
             const step = 0.05 * gameContainer.offsetWidth;
             const characterWidth = character.offsetWidth;
             const castle = document.querySelector('.castle');
-            const castleRight = parseFloat(castle.style.right) || 0; // Đổi 5% thành 0
+            const castleRight = parseFloat(castle.style.right) || 0;
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
             const maxLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
 
             const newLeft = forward
                 ? Math.min(currentLeft + step, maxLeft)
-                : Math.max(currentLeft - step, 0); // Đổi 5% thành 0
+                : Math.max(currentLeft - step, 0);
                 
             character.style.left = `${newLeft}px`;
         }
@@ -502,7 +526,7 @@
             const castle = document.querySelector('.castle');
             const gameContainer = document.querySelector('.game-container');
 
-            const castleRight = parseFloat(castle.style.right) || 0; // Đổi 5% thành 0
+            const castleRight = parseFloat(castle.style.right) || 0;
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
             const characterWidth = character.offsetWidth;
             const targetLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
