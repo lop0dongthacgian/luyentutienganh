@@ -71,11 +71,11 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
-            padding-top: 40px; /* Add padding top */
-            margin-bottom: 240px;
+            padding-top: 60px; /* Tăng padding-top để có thêm không gian phía trên */
+            margin-bottom: 200px; /* Giảm margin-bottom để nâng các thành phần dưới lên */
             z-index: 5;
             align-items: center;
-            justify-content: flex-start; /* Changed from center to flex-start */
+            justify-content: flex-start;
             text-align: center;
             width: 100%;
             box-sizing: border-box;
@@ -119,7 +119,7 @@
             color: #2E7D32;
         }
         .keyboard-container {
-            margin-top: 15px; /* Reduced margin */
+            margin-top: 5px; /* Giảm margin-top để nâng bàn phím lên */
             width: 90%;
             max-width: 600px;
             display: flex;
@@ -158,12 +158,12 @@
             transform: none;
         }
         .controls {
-            margin-top: 20px; /* Adjusted margin to bring it closer to the keyboard */
+            margin-top: 10px; /* Giảm margin-top để nâng các nút điều khiển lên */
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 10px;
-            width: 100%; /* Changed from 90% to 100% to align with keyboard container */
+            width: 100%;
         }
         .btn {
             padding: 12px 24px;
@@ -308,7 +308,7 @@
                 height: 200px;
             }
             .content-wrapper {
-                margin-bottom: 200px;
+                margin-bottom: 180px; /* Có thể giảm thêm cho màn hình lớn nếu cần */
             }
             .question {
                 font-size: 24px;
@@ -343,17 +343,17 @@
         /* Media query for short screens (e.g., landscape phone) */
         @media (max-height: 600px) {
             .content-wrapper {
-                padding-top: 15px;
-                margin-bottom: 180px; /* reduce space for character */
+                padding-top: 10px; /* Có thể giảm thêm padding-top nếu màn hình quá ngắn */
+                margin-bottom: 160px; /* Giảm thêm để phù hợp với màn hình ngắn */
             }
             .question-container {
                 margin-bottom: 10px;
             }
             .keyboard-container {
-                margin-top: 10px;
+                margin-top: 5px;
             }
             .controls {
-                margin-top: 15px;
+                margin-top: 10px;
             }
              .character, .castle {
                 bottom: 80px; /* Raise character slightly */
@@ -362,10 +362,31 @@
                 height: 100px;
             }
         }
+
+        .sound-toggle-btn {
+            padding: 8px 16px;
+            background: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+        }
+        .sound-toggle-btn:hover {
+            background: #E64A19;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
     <div class="game-container">
+        <button class="sound-toggle-btn" id="soundToggle">Tắt âm thanh</button>
         <div class="content-wrapper">
             <div class="question-container">
                 <div class="question" id="question">Câu hỏi sẽ hiển thị ở đây</div>
@@ -398,7 +419,12 @@
         let usedLetters = [];
         let selectedQuestions = [];
         const totalQuestions = 10;
-        
+        let soundOn = false; // Mặc định âm thanh tắt
+        let backgroundMusic = new Audio('audio/nen.mp3');
+        backgroundMusic.loop = true;
+        let correctSound = new Audio('audio/correct.mp3');
+        let wrongSound = new Audio('audio/wrong.mp3');
+
         function initGame() {
             selectRandomQuestions();
             loadQuestion(selectedQuestions[currentQuestionIndex]);
@@ -406,8 +432,31 @@
             setupKeyboard();
             updateCharacterAndCastlePosition();
             window.addEventListener('resize', updateCharacterAndCastlePosition);
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+
+            // Play background music when any key is pressed or clicked for the first time
+            document.addEventListener('keydown', initialSoundPlay, { once: true });
+            document.addEventListener('click', initialSoundPlay, { once: true });
         }
 
+        function initialSoundPlay() {
+            if (!soundOn) {
+                toggleSound(); // Turn on sound automatically on first interaction
+            }
+        }
+
+        function toggleSound() {
+            soundOn = !soundOn;
+            const soundToggleButton = document.getElementById('soundToggle');
+            if (soundOn) {
+                backgroundMusic.play();
+                soundToggleButton.textContent = 'Tắt âm thanh';
+            } else {
+                backgroundMusic.pause();
+                soundToggleButton.textContent = 'Bật âm thanh';
+            }
+        }
+        
         function updateCharacterAndCastlePosition() {
             const character = document.getElementById('character');
             const castle = document.querySelector('.castle');
@@ -468,6 +517,10 @@
             document.getElementById(`key-${letter}`).classList.add('used');
             
             if (currentAnswer.includes(letter)) {
+                if (soundOn) {
+                    correctSound.currentTime = 0;
+                    correctSound.play();
+                }
                 updateBlanks(letter);
                 
                 if (checkComplete()) {
@@ -491,6 +544,10 @@
                     moveCharacter(true); 
                 }
             } else {
+                if (soundOn) {
+                    wrongSound.currentTime = 0;
+                    wrongSound.play();
+                }
                 moveCharacter(false); 
             }
         }
