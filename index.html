@@ -398,7 +398,19 @@
             background: #E64A19;
             transform: scale(1.05);
         }
-    </style>
+    
+.sun-overlay {
+    position: absolute;
+    top: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+</style>
 </head>
 <body>
     <div class="game-container">
@@ -426,6 +438,7 @@
         </div>
         <div class="castle">
             <img src="image/th.png" alt="Castle">
+            <img src="image/mt.gif" alt="Mặt trời" class="sun-overlay">
         </div>
         <div class="character" id="character"></div>
         <div id="fireworks"></div>
