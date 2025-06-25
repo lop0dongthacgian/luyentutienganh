@@ -66,13 +66,14 @@
             object-fit: contain;
             filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
+        /* === CSS ĐÃ SỬA === */
         .content-wrapper {
             flex: 1;
             display: flex;
             flex-direction: column;
             padding: 20px;
-            padding-top: 60px; /* Tăng padding-top để có thêm không gian phía trên */
-            margin-bottom: 200px; /* Giảm margin-bottom để nâng các thành phần dưới lên */
+            padding-top: 20px; /* Giảm padding-top xuống */
+            margin-bottom: 200px;
             z-index: 5;
             align-items: center;
             justify-content: flex-start;
@@ -119,7 +120,7 @@
             color: #2E7D32;
         }
         .keyboard-container {
-            margin-top: 5px; /* Giảm margin-top để nâng bàn phím lên */
+            margin-top: 5px;
             width: 90%;
             max-width: 600px;
             display: flex;
@@ -157,13 +158,15 @@
             cursor: not-allowed;
             transform: none;
         }
+        /* === CSS ĐÃ SỬA === */
         .controls {
-            margin-top: 10px; /* Giảm margin-top để nâng các nút điều khiển lên */
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 10px;
             width: 100%;
+            max-width: 600px;
         }
         .btn {
             padding: 12px 24px;
@@ -308,7 +311,7 @@
                 height: 200px;
             }
             .content-wrapper {
-                margin-bottom: 180px; /* Có thể giảm thêm cho màn hình lớn nếu cần */
+                margin-bottom: 180px;
             }
             .question {
                 font-size: 24px;
@@ -343,8 +346,8 @@
         /* Media query for short screens (e.g., landscape phone) */
         @media (max-height: 600px) {
             .content-wrapper {
-                padding-top: 10px; /* Có thể giảm thêm padding-top nếu màn hình quá ngắn */
-                margin-bottom: 160px; /* Giảm thêm để phù hợp với màn hình ngắn */
+                padding-top: 10px;
+                margin-bottom: 160px;
             }
             .question-container {
                 margin-bottom: 10px;
@@ -387,19 +390,23 @@
 <body>
     <div class="game-container">
         <button class="sound-toggle-btn" id="soundToggle">Tắt âm thanh</button>
+        
         <div class="content-wrapper">
+            <div class="controls">
+                <button class="btn" id="reset">Chơi lại</button>
+                <div class="score-container" id="score">Điểm: 0</div>
+            </div>
+
             <div class="question-container">
                 <div class="question" id="question">Câu hỏi sẽ hiển thị ở đây</div>
                 <div class="blanks" id="blanks"></div>
             </div>
+            
             <div class="keyboard-container">
                 <div class="keyboard" id="keyboard"></div>
-                <div class="controls">
-                    <button class="btn" id="reset">Chơi lại</button>
-                    <div class="score-container" id="score">Điểm: 0</div>
-                </div>
             </div>
         </div>
+        
         <div class="grass-road">
             <img src="image/co.png" alt="Grass with flowers">
             <div class="grass-text">Hoàn thành bài tập để đến trường</div>
