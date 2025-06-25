@@ -26,7 +26,7 @@
             display: flex;
             flex-direction: column;
             background: rgba(255, 255, 255, 0.2); /* Slightly transparent background for container */
-            border-radius: 20px;
+            border-radius: 20px; /* Default for larger screens */
             box-shadow: 0 0 30px rgba(0,0,0,0.1);
             overflow: hidden; /* Ensure elements don't spill out */
         }
@@ -203,21 +203,23 @@
             content: "⭐ ";
             font-size: 20px;
         }
-       .grass-road {
-    position: absolute;
-    /* Change z-index to a higher value than character and castle */
-    z-index: 11; /* Or any value greater than 10 */
-    bottom: 0;
-    width: 100%;
-    height: 120px;
-    background-color: transparent;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 10px;
-    box-sizing: border-box;
-}
+        .grass-road {
+            position: absolute;
+            z-index: 11;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background-color: transparent;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 10px;
+            box-sizing: border-box;
+            /* Đảm bảo các góc dưới của cỏ là vuông theo mặc định */
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
         .grass-road img {
             position: absolute;
             bottom: 0;
@@ -293,7 +295,7 @@
             text-align: center;
             font-size: 14px;
             color: #FFFFFF;
-            z-index: 10;
+            z-index: 12; /* Đã chỉnh để nằm trên cỏ hoa */
             font-weight: bold;
             text-shadow: none;
         }
@@ -369,6 +371,13 @@
             }
             .grass-road {
                 height: 100px;
+                /* Đảm bảo cỏ vuông góc trên màn hình nhỏ */
+                border-bottom-left-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
+            /* Thêm hoặc cập nhật quy tắc này để đảm bảo game-container cũng không bo góc ở dưới trên màn hình nhỏ */
+            .game-container {
+                border-radius: 0 !important; /* Loại bỏ tất cả bo góc */
             }
         }
 
@@ -382,11 +391,6 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            /* Thay đổi vị trí để nằm trong hàng ngang controls */
-            /* position: absolute; */
-            /* top: 10px; */
-            /* right: 10px; */
-            /* z-index: 100; */
             flex-grow: 1; /* Cho phép co giãn */
             margin: 0 5px; /* Thêm khoảng cách giữa các nút */
         }
