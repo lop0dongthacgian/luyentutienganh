@@ -320,58 +320,255 @@
             text-shadow: none;
         }
 
+        .sound-toggle-btn {
+            padding: 8px 16px;
+            background: #FF5722;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+        .sound-toggle-btn:hover {
+            background: #E64A19;
+            transform: scale(1.05);
+        }
+    
+        .sun-overlay {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* DESKTOP RESPONSIVE - Tối ưu cho màn hình lớn */
         @media (min-width: 768px) {
             .game-container {
-                min-height: 80vh;
-                margin: 50px auto;
-                border-radius: 0;
+                min-height: 85vh;
+                max-width: 1200px;
+                margin: 20px auto;
+                border-radius: 20px;
+                box-shadow: 0 10px 50px rgba(0,0,0,0.15);
             }
+            
+            .content-wrapper {
+                padding: 40px;
+                margin-bottom: 250px;
+            }
+            
+            .question-container {
+                padding: 30px;
+                margin-bottom: 30px;
+                max-width: 800px;
+            }
+            
+            .question {
+                font-size: 32px;
+                margin-bottom: 20px;
+            }
+            
+            .blanks {
+                gap: 15px;
+                margin: 20px 0;
+            }
+            
+            .blank {
+                width: 55px;
+                height: 65px;
+                font-size: 36px;
+                border-bottom: 5px solid #FF6B6B;
+            }
+            
+            .keyboard-container {
+                margin-top: 20px;
+                max-width: 800px;
+            }
+            
+            .keyboard {
+                gap: 12px;
+                justify-content: center;
+                max-width: 700px;
+            }
+            
+            .key {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                border-radius: 12px;
+                border: 3px solid #FF8C00;
+            }
+            
+            .key:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+            }
+            
+            .controls {
+                margin-bottom: 25px;
+                max-width: 800px;
+                padding: 0 20px;
+            }
+            
+            .btn {
+                padding: 18px 35px;
+                font-size: 22px;
+                border-radius: 30px;
+            }
+            
+            .score-container {
+                padding: 18px 30px;
+                font-size: 22px;
+                border-radius: 25px;
+            }
+            
+            .score-container::before {
+                font-size: 24px;
+            }
+            
+            .sound-toggle-btn {
+                padding: 12px 20px;
+                font-size: 18px;
+                border-radius: 25px;
+            }
+            
             .character {
-                bottom: 60px;
-                left: 0;
-                width: 150px;
-                height: 150px;
-            }
-            .castle {
-                bottom: 60px;
-                right: 0;
+                bottom: 80px;
                 width: 200px;
                 height: 200px;
             }
-            .content-wrapper {
-                margin-bottom: 180px;
+            
+            .castle {
+                bottom: 80px;
+                width: 220px;
+                height: 220px;
             }
+            
+            .sun-overlay {
+                width: 80px;
+                height: 80px;
+                top: -90px;
+            }
+            
+            .grass-road {
+                height: 150px;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+            
+            .grass-text {
+                font-size: 28px;
+                top: 70px;
+            }
+            
+            .temporary-message {
+                font-size: 32px;
+                padding: 30px 60px;
+                border-radius: 20px;
+            }
+            
+            .footer-text {
+                font-size: 16px;
+                bottom: 15px;
+            }
+        }
+
+        /* LARGE DESKTOP - Màn hình rất lớn */
+        @media (min-width: 1200px) {
+            .game-container {
+                max-width: 1400px;
+                min-height: 90vh;
+            }
+            
             .question {
+                font-size: 38px;
+            }
+            
+            .blank {
+                width: 65px;
+                height: 75px;
+                font-size: 42px;
+            }
+            
+            .key {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+            
+            .btn {
+                padding: 22px 40px;
                 font-size: 24px;
             }
-            .blank {
-                width: 45px;
-                height: 55px;
+            
+            .score-container {
+                padding: 22px 35px;
+                font-size: 24px;
+            }
+            
+            .character {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .castle {
+                width: 260px;
+                height: 260px;
+            }
+            
+            .grass-text {
                 font-size: 32px;
             }
-            .key {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+        }
+
+        /* Mobile tối ưu */
+        @media (max-width: 767px) {
+            .game-container {
+                border-radius: 0;
+                min-height: 100vh;
             }
-            .btn {
-                padding: 15px 30px;
-                font-size: 20px;
+            
+            .content-wrapper {
+                padding: 15px;
+                margin-bottom: 180px;
             }
-            .score-container {
-                padding: 15px 25px;
-                font-size: 20px;
+            
+            .question {
+                font-size: 18px;
             }
-            .score-container::before {
-                font-size: 22px;
-            }
-            .grass-text {
+            
+            .blank {
+                width: 30px;
+                height: 40px;
                 font-size: 24px;
-                top: 50px;
             }
-            .temporary-message {
-                font-size: 28px;
-                padding: 25px 50px;
+            
+            .key {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .score-container {
+                padding: 10px 16px;
+                font-size: 16px;
+            }
+            
+            .sound-toggle-btn {
+                padding: 6px 12px;
+                font-size: 12px;
             }
         }
 
@@ -404,35 +601,6 @@
                 font-size: 20px;
                 padding: 15px 30px;
             }
-        }
-
-        .sound-toggle-btn {
-            padding: 8px 16px;
-            background: #FF5722;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-grow: 1;
-            margin: 0 5px;
-        }
-        .sound-toggle-btn:hover {
-            background: #E64A19;
-            transform: scale(1.05);
-        }
-    
-        .sun-overlay {
-            position: absolute;
-            top: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            z-index: 3;
-            pointer-events: none;
         }
     </style>
 </head>
@@ -468,7 +636,6 @@
         <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
     </div>
 
-    <!-- Thêm liên kết đến file questions.js -->
     <script src="questions.js"></script>
     
     <script>
