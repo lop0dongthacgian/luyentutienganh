@@ -41,7 +41,7 @@
             background-repeat: no-repeat;
             background-position: center;
             transition: left 0.5s ease-out;
-            z-index: 10;
+            z-index: 9; /* Adjusted z-index: Lower than keyboard-container and content-wrapper */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -88,7 +88,7 @@
             padding: 20px;
             padding-top: 20px;
             margin-bottom: 200px;
-            z-index: 5;
+            z-index: 50; /* Ensure content wrapper is above character, but keyboard is above it */
             align-items: center;
             justify-content: flex-start;
             text-align: center;
@@ -141,7 +141,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            z-index: 100; /* Increased z-index */
+            z-index: 100; /* Highest z-index to ensure it's always on top */
         }
         .keyboard {
             display: flex;
@@ -515,7 +515,8 @@
             }
             .content-wrapper {
                 padding: 15px;
-                margin-bottom: 180px;
+                /* Điều chỉnh margin-bottom để tạo đủ không gian cho bàn phím, tránh chồng lấn */
+                margin-bottom: 220px; /* Tăng giá trị này nếu bàn phím vẫn bị cắt */
             }
             .question {
                 font-size: 18px;
@@ -524,6 +525,9 @@
                 width: 30px;
                 height: 40px;
                 font-size: 24px;
+            }
+            .keyboard-container {
+                margin-top: 5px;
             }
             .key {
                 width: 40px;
@@ -546,7 +550,7 @@
         @media (max-height: 600px) {
             .content-wrapper {
                 padding-top: 10px;
-                margin-bottom: 160px;
+                margin-bottom: 180px; /* Tăng giá trị này cho màn hình thấp */
             }
             .question-container {
                 margin-bottom: 10px;
@@ -718,7 +722,8 @@
                     score++;
                     updateScore();
                     moveCharacterToCastle();
-                    showFireworks(); // Call showFireworks() when question is completed
+                    showFireworks();
+                    // Increased timeout duration to 6 seconds (3 seconds original + 3 seconds additional)
                     setTimeout(() => {
                         currentQuestionIndex++;
                         if (currentQuestionIndex < selectedQuestions.length) {
@@ -729,7 +734,7 @@
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
                             showTemporaryMessage("Chúc mừng! Bắt đầu vòng mới!");
                         }
-                    }, 6000); // Increased timeout by 3 seconds (3000 original + 3000 additional = 6000)
+                    }, 6000); 
                 } else {
                     moveCharacter(true);
                 }
