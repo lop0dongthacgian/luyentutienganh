@@ -141,7 +141,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            z-index: 15;
+            z-index: 100; /* Increased z-index */
         }
         .keyboard {
             display: flex;
@@ -396,9 +396,9 @@
                 max-width: 800px;
             }
             .keyboard {
-                gap: 12px;
-                justify-content: center;
-                max-width: 700px;
+                    gap: 12px;
+                    justify-content: center;
+                    max-width: 700px;
             }
             .key {
                 width: 60px;
@@ -599,10 +599,8 @@
             <img src="image/th.png" alt="Castle">
             <img src="image/mt.gif" alt="Mặt trời" class="sun-overlay">
         </div>
-        <!-- Hình co1.png tách riêng -->
         <div class="background-co1"></div>
 
-        <!-- Nhân vật chính -->
         <div class="character" id="character"></div>
 
         <div id="fireworks"></div>
