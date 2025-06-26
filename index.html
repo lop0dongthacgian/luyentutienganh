@@ -47,6 +47,21 @@
             align-items: center;
             filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
+
+        .background-co1 {
+            position: absolute;
+            bottom: 60px;
+            left: 5px;
+            width: 180px;
+            height: 180px;
+            background-image: url('image/co1.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-10px); }
@@ -125,8 +140,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative; /* Thêm position để z-index hoạt động */
-            z-index: 15; /* Đảm bảo bàn phím luôn ở trên */
+            position: relative;
+            z-index: 15;
         }
         .keyboard {
             display: flex;
@@ -228,7 +243,6 @@
             object-fit: cover;
             z-index: 0;
         }
-        
         .grass-text {
             position: absolute;
             top: 60px;
@@ -247,7 +261,6 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
         }
-        
         #fireworks {
             position: fixed;
             top: 0;
@@ -286,7 +299,6 @@
                 opacity: 0;
             }
         }
-        
         .temporary-message {
             position: fixed;
             top: 50%;
@@ -309,7 +321,6 @@
             80% { opacity: 1; transform: translate(-50%, -50%); }
             100% { opacity: 0; transform: translate(-50%, -40%); }
         }
-
         .footer-text {
             position: absolute;
             bottom: 10px;
@@ -321,7 +332,6 @@
             font-weight: bold;
             text-shadow: none;
         }
-
         .sound-toggle-btn {
             padding: 8px 16px;
             background: #FF5722;
@@ -339,7 +349,6 @@
             background: #E64A19;
             transform: scale(1.05);
         }
-    
         .sun-overlay {
             position: absolute;
             top: -70px;
@@ -350,7 +359,6 @@
             z-index: 3;
             pointer-events: none;
         }
-
         /* DESKTOP RESPONSIVE - Tối ưu cho màn hình lớn */
         @media (min-width: 768px) {
             .game-container {
@@ -360,46 +368,38 @@
                 border-radius: 20px;
                 box-shadow: 0 10px 50px rgba(0,0,0,0.15);
             }
-            
             .content-wrapper {
                 padding: 40px;
                 margin-bottom: 250px;
             }
-            
             .question-container {
                 padding: 30px;
                 margin-bottom: 30px;
                 max-width: 800px;
             }
-            
             .question {
                 font-size: 32px;
                 margin-bottom: 20px;
             }
-            
             .blanks {
                 gap: 15px;
                 margin: 20px 0;
             }
-            
             .blank {
                 width: 55px;
                 height: 65px;
                 font-size: 36px;
                 border-bottom: 5px solid #FF6B6B;
             }
-            
             .keyboard-container {
                 margin-top: 20px;
                 max-width: 800px;
             }
-            
             .keyboard {
                 gap: 12px;
                 justify-content: center;
                 max-width: 700px;
             }
-            
             .key {
                 width: 60px;
                 height: 60px;
@@ -407,173 +407,142 @@
                 border-radius: 12px;
                 border: 3px solid #FF8C00;
             }
-            
             .key:hover {
                 transform: scale(1.1);
                 box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
             }
-            
             .controls {
                 margin-bottom: 25px;
                 max-width: 800px;
                 padding: 0 20px;
             }
-            
             .btn {
                 padding: 18px 35px;
                 font-size: 22px;
                 border-radius: 30px;
             }
-            
             .score-container {
                 padding: 18px 30px;
                 font-size: 22px;
                 border-radius: 25px;
             }
-            
             .score-container::before {
                 font-size: 24px;
             }
-            
             .sound-toggle-btn {
                 padding: 12px 20px;
                 font-size: 18px;
                 border-radius: 25px;
             }
-            
             .character {
                 bottom: 80px;
                 width: 200px;
                 height: 200px;
             }
-            
             .castle {
                 bottom: 80px;
                 width: 220px;
                 height: 220px;
             }
-            
             .sun-overlay {
                 width: 80px;
                 height: 80px;
                 top: -90px;
             }
-            
             .grass-road {
                 height: 150px;
                 border-bottom-left-radius: 20px;
                 border-bottom-right-radius: 20px;
             }
-            
             .grass-text {
                 font-size: 28px;
                 top: 70px;
             }
-            
             .temporary-message {
                 font-size: 32px;
                 padding: 30px 60px;
                 border-radius: 20px;
             }
-            
             .footer-text {
                 font-size: 16px;
                 bottom: 15px;
             }
         }
-
         /* LARGE DESKTOP - Màn hình rất lớn */
         @media (min-width: 1200px) {
             .game-container {
                 max-width: 1400px;
                 min-height: 90vh;
             }
-            
             .question {
                 font-size: 38px;
             }
-            
             .blank {
                 width: 65px;
                 height: 75px;
                 font-size: 42px;
             }
-            
             .key {
                 width: 70px;
                 height: 70px;
                 font-size: 28px;
             }
-            
             .btn {
                 padding: 22px 40px;
                 font-size: 24px;
             }
-            
             .score-container {
                 padding: 22px 35px;
                 font-size: 24px;
             }
-            
             .character {
                 width: 240px;
                 height: 240px;
             }
-            
             .castle {
                 width: 260px;
                 height: 260px;
             }
-            
             .grass-text {
                 font-size: 32px;
             }
         }
-
         /* Mobile tối ưu */
         @media (max-width: 767px) {
             .game-container {
                 border-radius: 0;
                 min-height: 100vh;
             }
-            
             .content-wrapper {
                 padding: 15px;
                 margin-bottom: 180px;
             }
-            
             .question {
                 font-size: 18px;
             }
-            
             .blank {
                 width: 30px;
                 height: 40px;
                 font-size: 24px;
             }
-            
             .key {
                 width: 40px;
                 height: 40px;
                 font-size: 16px;
             }
-            
             .btn {
                 padding: 10px 20px;
                 font-size: 16px;
             }
-            
             .score-container {
                 padding: 10px 16px;
                 font-size: 16px;
             }
-            
             .sound-toggle-btn {
                 padding: 6px 12px;
                 font-size: 12px;
             }
         }
-
         @media (max-height: 600px) {
             .content-wrapper {
                 padding-top: 10px;
@@ -614,17 +583,14 @@
                 <div class="score-container" id="score">Điểm: 0</div>
                 <button class="sound-toggle-btn" id="soundToggle">Tắt âm thanh</button>
             </div>
-
             <div class="question-container">
                 <div class="question" id="question">Câu hỏi sẽ hiển thị ở đây</div>
                 <div class="blanks" id="blanks"></div>
             </div>
-            
             <div class="keyboard-container">
                 <div class="keyboard" id="keyboard"></div>
             </div>
         </div>
-        
         <div class="grass-road">
             <img src="image/co.png" alt="Grass with flowers">
             <div class="grass-text">Hoàn thành bài tập để đến trường</div>
@@ -633,13 +599,16 @@
             <img src="image/th.png" alt="Castle">
             <img src="image/mt.gif" alt="Mặt trời" class="sun-overlay">
         </div>
+        <!-- Hình co1.png tách riêng -->
+        <div class="background-co1"></div>
+
+        <!-- Nhân vật chính -->
         <div class="character" id="character"></div>
+
         <div id="fireworks"></div>
         <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
     </div>
-
     <script src="questions.js"></script>
-    
     <script>
         // Biến allQuestions giờ đã được định nghĩa trong questions.js
         let currentQuestionIndex = 0;
@@ -662,7 +631,6 @@
             updateCharacterAndCastlePosition();
             window.addEventListener('resize', updateCharacterAndCastlePosition);
             document.getElementById('soundToggle').addEventListener('click', toggleSound);
-
             document.addEventListener('keydown', initialSoundPlay, { once: true });
             document.addEventListener('click', initialSoundPlay, { once: true });
         }
@@ -684,20 +652,19 @@
                 soundToggleButton.textContent = 'Bật âm thanh';
             }
         }
-        
+
         function updateCharacterAndCastlePosition() {
             const character = document.getElementById('character');
             const castle = document.querySelector('.castle');
-            character.style.left = `0px`; 
+            character.style.left = `0px`;
             castle.style.right = `0px`;
         }
-        
+
         function selectRandomQuestions() {
-            // Chọn ngẫu nhiên 20 câu hỏi từ file questions.js
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
             selectedQuestions = shuffled.slice(0, Math.min(totalQuestions, allQuestions.length));
         }
-        
+
         function loadQuestion(question) {
             currentAnswer = question.plainAnswer.join('');
             usedLetters = [];
@@ -707,7 +674,7 @@
             const character = document.getElementById('character');
             character.style.left = `0px`;
         }
-        
+
         function createBlanks() {
             const blanksContainer = document.getElementById('blanks');
             blanksContainer.innerHTML = '';
@@ -718,7 +685,7 @@
                 blanksContainer.appendChild(blank);
             }
         }
-        
+
         function setupKeyboard() {
             const keyboard = document.getElementById('keyboard');
             keyboard.innerHTML = '';
@@ -732,60 +699,51 @@
                 keyboard.appendChild(key);
             }
         }
-        
+
         function resetKeyboard() {
             document.querySelectorAll('.key').forEach(key => {
                 key.classList.remove('used');
             });
         }
-        
+
         function handleGuess(letter) {
             if (usedLetters.includes(letter)) return;
-            
             usedLetters.push(letter);
             document.getElementById(`key-${letter}`).classList.add('used');
-            
             if (currentAnswer.includes(letter)) {
                 if (soundOn) {
                     correctSound.currentTime = 0;
                     correctSound.play();
                 }
                 updateBlanks(letter);
-                
                 if (checkComplete()) {
                     score++;
                     updateScore();
-                    
                     moveCharacterToCastle();
-                    
                     showFireworks();
-                    
                     setTimeout(() => {
                         currentQuestionIndex++;
                         if (currentQuestionIndex < selectedQuestions.length) {
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
                         } else {
-                            // Khi hoàn thành 20 câu, chọn ngẫu nhiên 20 câu mới
                             selectRandomQuestions();
                             currentQuestionIndex = 0;
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
-                            
-                            // Hiển thị thông báo vòng mới
                             showTemporaryMessage("Chúc mừng! Bắt đầu vòng mới!");
                         }
-                    }, 3000); 
+                    }, 3000);
                 } else {
-                    moveCharacter(true); 
+                    moveCharacter(true);
                 }
             } else {
                 if (soundOn) {
                     wrongSound.currentTime = 0;
                     wrongSound.play();
                 }
-                moveCharacter(false); 
+                moveCharacter(false);
             }
         }
-        
+
         function updateBlanks(letter) {
             for (let i = 0; i < currentAnswer.length; i++) {
                 if (currentAnswer[i] === letter) {
@@ -793,7 +751,7 @@
                 }
             }
         }
-        
+
         function moveCharacter(forward) {
             const character = document.getElementById('character');
             const gameContainer = document.querySelector('.game-container');
@@ -804,43 +762,38 @@
             const castleRight = parseFloat(castle.style.right) || 0;
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
             const maxLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-
             const newLeft = forward
                 ? Math.min(currentLeft + step, maxLeft)
                 : Math.max(currentLeft - step, 0);
-                
             character.style.left = `${newLeft}px`;
         }
-        
+
         function moveCharacterToCastle() {
             const character = document.getElementById('character');
             const castle = document.querySelector('.castle');
             const gameContainer = document.querySelector('.game-container');
-
             const castleRight = parseFloat(castle.style.right) || 0;
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
             const characterWidth = character.offsetWidth;
             const targetLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-            
             character.style.transition = 'left 1.5s ease-in-out';
             character.style.left = `${targetLeft}px`;
-            
             setTimeout(() => {
                 character.style.transition = 'left 0.5s ease-out';
             }, 1500);
         }
-        
+
         function checkComplete() {
             for (let i = 0; i < currentAnswer.length; i++) {
                 if (!document.getElementById(`blank-${i}`).textContent) return false;
             }
             return true;
         }
-        
+
         function updateScore() {
             document.getElementById('score').textContent = `Điểm: ${score}`;
         }
-        
+
         function resetGame() {
             currentQuestionIndex = 0;
             score = 0;
@@ -849,90 +802,47 @@
             updateScore();
             updateCharacterAndCastlePosition();
         }
-        
+
         function showFireworks() {
             const celebration = document.getElementById('fireworks');
             celebration.innerHTML = '';
             celebration.style.display = 'block';
-            
             for (let i = 0; i < 80; i++) {
                 setTimeout(() => {
                     createFirework();
-                }, i * 70); 
+                }, i * 70);
             }
-            
             setTimeout(() => {
                 celebration.style.display = 'none';
             }, 3000);
         }
-        
+
         function createFirework() {
             const celebration = document.getElementById('fireworks');
             const firework = document.createElement('div');
             firework.className = 'firework';
-            
-            const colors = ['#FF5252', '#FFD740', '#69F0AE', '#40C4FF', '#7C4DFF', '#FF8A80', '#A7FFEB', '#FFE082'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            firework.style.backgroundColor = randomColor;
-            firework.style.left = `${Math.random() * 80 + 10}%`; 
-            firework.style.top = `${30 + Math.random() * 50}%`; 
-            
+            const colors = ['#FF5252', '#FFD700', '#69F0AE', '#40C4FF', '#7C4DFF'];
+            firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            firework.style.left = `${Math.random() * 80 + 10}%`;
+            firework.style.top = `${30 + Math.random() * 50}%`;
             celebration.appendChild(firework);
-            
-            for (let i = 0; i < 20; i++) { 
-                setTimeout(() => {
-                    createFireworkParticle(firework.style.left, firework.style.top, randomColor);
-                }, 50); 
-            }
-            
             setTimeout(() => {
                 firework.remove();
             }, 1000);
         }
-        
-        function createFireworkParticle(left, top, color) {
-            const celebration = document.getElementById('fireworks');
-            const particle = document.createElement('div');
-            particle.className = 'firework';
-            particle.style.backgroundColor = color;
-            particle.style.left = left;
-            particle.style.top = top;
-            particle.style.width = '6px'; 
-            particle.style.height = '6px'; 
-            particle.style.filter = 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.6))'; 
-            
-            const angle = Math.random() * Math.PI * 2;
-            const distance = 80 + Math.random() * 70; 
-            const translateX = Math.cos(angle) * distance;
-            const translateY = Math.sin(angle) * distance;
-            
-            particle.style.setProperty('--tx', `${translateX}px`);
-            particle.style.setProperty('--ty', `${translateY}px`);
-            particle.style.animation = 'fireworkParticle 1s forwards'; 
-            
-            celebration.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 1000); 
-        }
-        
-        // Hiển thị thông báo tạm thời
+
         function showTemporaryMessage(message) {
             const messageElement = document.createElement('div');
             messageElement.className = 'temporary-message';
             messageElement.textContent = message;
             document.body.appendChild(messageElement);
-            
             setTimeout(() => {
                 document.body.removeChild(messageElement);
             }, 3000);
         }
-        
+
         document.getElementById('reset').addEventListener('click', resetGame);
         window.addEventListener('DOMContentLoaded', initGame);
-        
         document.addEventListener('keydown', (e) => {
             const key = e.key.toUpperCase();
             if (/^[A-Z]$/.test(key)) {
