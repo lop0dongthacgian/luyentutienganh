@@ -718,7 +718,7 @@
                     score++;
                     updateScore();
                     moveCharacterToCastle();
-                    showFireworks();
+                    showFireworks(); // Call showFireworks() when question is completed
                     setTimeout(() => {
                         currentQuestionIndex++;
                         if (currentQuestionIndex < selectedQuestions.length) {
@@ -729,7 +729,7 @@
                             loadQuestion(selectedQuestions[currentQuestionIndex]);
                             showTemporaryMessage("Chúc mừng! Bắt đầu vòng mới!");
                         }
-                    }, 3000);
+                    }, 6000); // Increased timeout by 3 seconds (3000 original + 3000 additional = 6000)
                 } else {
                     moveCharacter(true);
                 }
