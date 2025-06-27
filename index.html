@@ -32,7 +32,7 @@
         }
         .character {
             position: absolute;
-            bottom: 60px;
+            bottom: 100px; /* Điều chỉnh vị trí */
             left: 0; 
             width: 180px;
             height: 180px;
@@ -41,7 +41,7 @@
             background-repeat: no-repeat;
             background-position: center;
             transition: left 0.5s ease-out;
-            z-index: 9; /* Adjusted z-index: Lower than keyboard-container and content-wrapper */
+            z-index: 12; /* Tăng z-index */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,11 +50,11 @@
 
         .background-co1 {
             position: absolute;
-            bottom: 60px;
+            bottom: 100px; /* Điều chỉnh vị trí */
             left: 5px;
             width: 180px;
             height: 180px;
-            background-image: url('image/co1.png');
+            background-image: url('image/co1.png'); /* ẢNH ĐOẠN ĐƯỜNG 1 */
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -70,16 +70,16 @@
         .castle {
             position: absolute;
             right: 0;
-            bottom: 60px;
+            bottom: 100px; /* Điều chỉnh vị trí */
             width: 160px;
             height: 160px;
-            z-index: 2;
+            z-index: 12; /* Tăng z-index */
         }
         .castle img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop_shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
         .content-wrapper {
             flex: 1;
@@ -87,8 +87,8 @@
             flex-direction: column;
             padding: 20px;
             padding-top: 20px;
-            margin-bottom: 200px;
-            z-index: 50; /* Ensure content wrapper is above character, but keyboard is above it */
+            margin-bottom: 250px; /* Tăng margin */
+            z-index: 50;
             align-items: center;
             justify-content: flex-start;
             text-align: center;
@@ -141,7 +141,7 @@
             flex-direction: column;
             align-items: center;
             position: relative;
-            z-index: 100; /* Highest z-index to ensure it's always on top */
+            z-index: 100;
         }
         .keyboard {
             display: flex;
@@ -223,7 +223,7 @@
             z-index: 11;
             bottom: 0;
             width: 100%;
-            height: 120px;
+            height: 100px; /* Giảm chiều cao */
             background-color: transparent;
             overflow: hidden;
             display: flex;
@@ -245,7 +245,7 @@
         }
         .grass-text {
             position: absolute;
-            top: 60px;
+            top: 30px; /* Điều chỉnh vị trí */
             font-size: 20px;
             font-weight: bold;
             color: #FFF;
@@ -370,7 +370,7 @@
             }
             .content-wrapper {
                 padding: 40px;
-                margin-bottom: 250px;
+                margin-bottom: 300px; /* Tăng margin */
             }
             .question-container {
                 padding: 30px;
@@ -435,14 +435,17 @@
                 border-radius: 25px;
             }
             .character {
-                bottom: 80px;
-                width: 200px;
-                height: 200px;
+                bottom: 120px; /* Điều chỉnh vị trí */
+                width: 250px; /* Tăng kích thước */
+                height: 250px; /* Tăng kích thước */
             }
             .castle {
-                bottom: 80px;
-                width: 220px;
-                height: 220px;
+                bottom: 120px; /* Điều chỉnh vị trí */
+                width: 280px; /* Tăng kích thước */
+                height: 280px; /* Tăng kích thước */
+            }
+            .background-co1 {
+                bottom: 120px; /* Điều chỉnh vị trí */
             }
             .sun-overlay {
                 width: 80px;
@@ -450,13 +453,13 @@
                 top: -90px;
             }
             .grass-road {
-                height: 150px;
+                height: 120px; /* Giảm chiều cao */
                 border-bottom-left-radius: 20px;
                 border-bottom-right-radius: 20px;
             }
             .grass-text {
                 font-size: 28px;
-                top: 70px;
+                top: 40px; /* Điều chỉnh vị trí */
             }
             .temporary-message {
                 font-size: 32px;
@@ -496,15 +499,16 @@
                 font-size: 24px;
             }
             .character {
-                width: 240px;
-                height: 240px;
+                width: 280px; /* Tăng kích thước */
+                height: 280px; /* Tăng kích thước */
             }
             .castle {
-                width: 260px;
-                height: 260px;
+                width: 320px; /* Tăng kích thước */
+                height: 320px; /* Tăng kích thước */
             }
             .grass-text {
                 font-size: 32px;
+                top: 50px; /* Điều chỉnh vị trí */
             }
         }
         /* Mobile tối ưu */
@@ -515,8 +519,7 @@
             }
             .content-wrapper {
                 padding: 15px;
-                /* Điều chỉnh margin-bottom để tạo đủ không gian cho bàn phím, tránh chồng lấn */
-                margin-bottom: 220px; /* Tăng giá trị này nếu bàn phím vẫn bị cắt */
+                margin-bottom: 250px; /* Tăng margin */
             }
             .question {
                 font-size: 18px;
@@ -550,7 +553,7 @@
         @media (max-height: 600px) {
             .content-wrapper {
                 padding-top: 10px;
-                margin-bottom: 180px; /* Tăng giá trị này cho màn hình thấp */
+                margin-bottom: 200px; /* Tăng giá trị này cho màn hình thấp */
             }
             .question-container {
                 margin-bottom: 10px;
@@ -562,10 +565,10 @@
                 margin-top: 10px;
             }
              .character, .castle {
-                bottom: 40px;
+                bottom: 80px;
             }
             .grass-road {
-                height: 100px;
+                height: 80px; /* Giảm chiều cao */
                 border-bottom-left-radius: 0 !important;
                 border-bottom-right-radius: 0 !important;
             }
@@ -596,29 +599,27 @@
             </div>
         </div>
         <div class="grass-road">
-            <img src="image/co.png" alt="Grass with flowers">
+            <img src="image/hoa.png" alt="Grass with flowers">
             <div class="grass-text">Hoàn thành bài tập để đến trường</div>
         </div>
         <div class="castle">
-            <img src="image/th.png" alt="Castle">
-            <img src="image/mt.gif" alt="Mặt trời" class="sun-overlay">
-        </div>
-        <div class="background-co1"></div>
-
-        <div class="character" id="character"></div>
+            <img src="image/th1.png" alt="Castle"> <img src="image/mt1.gif" alt="Mặt trời" class="sun-overlay"> </div>
+        <div class="background-co1"></div> <div class="character" id="character"></div>
 
         <div id="fireworks"></div>
         <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
     </div>
     <script src="questions.js"></script>
     <script>
-        // Biến allQuestions giờ đã được định nghĩa trong questions.js
+        // allQuestions được định nghĩa trong questions.js
         let currentQuestionIndex = 0;
         let score = 0;
         let currentAnswer = '';
         let usedLetters = [];
         let selectedQuestions = [];
-        const totalQuestions = 20;
+        const totalQuestionsForGame = 5; // Tổng số câu hỏi cho một lượt chơi (5 đoạn đường = 5 câu)
+        const totalStages = 5; // Có 5 đoạn đường (5 file HTML)
+
         let soundOn = false;
         let backgroundMusic = new Audio('audio/nen.mp3');
         backgroundMusic.loop = true;
@@ -626,20 +627,44 @@
         let wrongSound = new Audio('audio/wrong.mp3');
 
         function initGame() {
-            selectRandomQuestions();
+            // Lấy currentQuestionIndex và score từ URL nếu có
+            const urlParams = new URLSearchParams(window.location.search);
+            const savedQuestionIndex = parseInt(urlParams.get('questionIndex'));
+            const savedScore = parseInt(urlParams.get('score'));
+            
+            // Lấy danh sách câu hỏi đã chọn cho lượt chơi hiện tại từ localStorage
+            const savedSelectedQuestions = localStorage.getItem('selectedQuestions');
+
+            if (!isNaN(savedQuestionIndex) && !isNaN(savedScore) && savedSelectedQuestions) {
+                currentQuestionIndex = savedQuestionIndex;
+                score = savedScore;
+                selectedQuestions = JSON.parse(savedSelectedQuestions);
+                console.log("Tiếp tục từ stage trước. Current Q Index:", currentQuestionIndex, "Score:", score, "Selected Qs:", selectedQuestions);
+            } else {
+                // Đây là lượt chơi mới (thường là khi tải index.html lần đầu hoặc reset)
+                console.log("Bắt đầu lượt chơi mới.");
+                score = 0;
+                currentQuestionIndex = 0;
+                selectRandomQuestions();
+                // Lưu danh sách câu hỏi đã chọn vào localStorage cho các trang tiếp theo
+                localStorage.setItem('selectedQuestions', JSON.stringify(selectedQuestions));
+            }
+            
             loadQuestion(selectedQuestions[currentQuestionIndex]);
             updateScore();
             setupKeyboard();
             updateCharacterAndCastlePosition();
             window.addEventListener('resize', updateCharacterAndCastlePosition);
             document.getElementById('soundToggle').addEventListener('click', toggleSound);
+            
+            // Lắng nghe sự kiện để phát nhạc nền khi người dùng tương tác lần đầu
             document.addEventListener('keydown', initialSoundPlay, { once: true });
             document.addEventListener('click', initialSoundPlay, { once: true });
         }
 
         function initialSoundPlay() {
             if (!soundOn) {
-                toggleSound();
+                toggleSound(); // Bật âm thanh tự động khi có tương tác
             }
         }
 
@@ -664,7 +689,7 @@
 
         function selectRandomQuestions() {
             const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-            selectedQuestions = shuffled.slice(0, Math.min(totalQuestions, allQuestions.length));
+            selectedQuestions = shuffled.slice(0, Math.min(totalQuestionsForGame, allQuestions.length));
         }
 
         function loadQuestion(question) {
@@ -723,27 +748,32 @@
                     updateScore();
                     moveCharacterToCastle();
                     showFireworks();
-                    // Increased timeout duration to 6 seconds (3 seconds original + 3 seconds additional)
+                    
                     setTimeout(() => {
                         currentQuestionIndex++;
-                        if (currentQuestionIndex < selectedQuestions.length) {
-                            loadQuestion(selectedQuestions[currentQuestionIndex]);
+                        if (currentQuestionIndex < totalQuestionsForGame) {
+                            // Chuyển sang file HTML tiếp theo
+                            const nextFileNumber = currentQuestionIndex + 1; // 0-indexed question means 1-indexed file
+                            window.location.href = `${nextFileNumber}index.html?questionIndex=${currentQuestionIndex}&score=${score}`;
                         } else {
-                            selectRandomQuestions();
-                            currentQuestionIndex = 0;
-                            loadQuestion(selectedQuestions[currentQuestionIndex]);
-                            showTemporaryMessage("Chúc mừng! Bắt đầu vòng mới!");
+                            // Đã hoàn thành 5 câu hỏi của lượt chơi
+                            showTemporaryMessage("Chúc mừng! Bạn đã đến trường và hoàn thành bài tập!");
+                            setTimeout(() => {
+                                // Reset game và quay lại index.html để bắt đầu lượt chơi mới với câu hỏi ngẫu nhiên khác
+                                localStorage.removeItem('selectedQuestions'); // Xóa câu hỏi đã chọn để bắt đầu mới
+                                window.location.href = 'index.html'; 
+                            }, 3000); // Hiển thị thông báo trong 3 giây
                         }
-                    }, 6000); 
+                    }, 6000); // Chờ 6 giây (3 giây pháo hoa + 3 giây chờ trước khi chuyển trang)
                 } else {
-                    moveCharacter(true);
+                    moveCharacter(true); // Di chuyển nhân vật tiến lên nếu đoán đúng nhưng chưa hoàn thành từ
                 }
             } else {
                 if (soundOn) {
                     wrongSound.currentTime = 0;
                     wrongSound.play();
                 }
-                moveCharacter(false);
+                moveCharacter(false); // Di chuyển nhân vật lùi lại nếu đoán sai
             }
         }
 
@@ -759,15 +789,21 @@
             const character = document.getElementById('character');
             const gameContainer = document.querySelector('.game-container');
             const currentLeft = parseFloat(character.style.left) || 0;
-            const step = 0.05 * gameContainer.offsetWidth;
+            const step = 0.05 * gameContainer.offsetWidth; // 5% chiều rộng game container
             const characterWidth = character.offsetWidth;
             const castle = document.querySelector('.castle');
             const castleRight = parseFloat(castle.style.right) || 0;
+            // Tính toán vị trí bên trái của lâu đài
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
+            // Điểm giữa của lâu đài, trừ đi nửa chiều rộng nhân vật để nhân vật đứng chính giữa
             const maxLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-            const newLeft = forward
-                ? Math.min(currentLeft + step, maxLeft)
-                : Math.max(currentLeft - step, 0);
+            
+            let newLeft;
+            if (forward) {
+                newLeft = Math.min(currentLeft + step, maxLeft);
+            } else {
+                newLeft = Math.max(currentLeft - step, 0); // Không cho phép lùi quá 0
+            }
             character.style.left = `${newLeft}px`;
         }
 
@@ -779,8 +815,9 @@
             const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
             const characterWidth = character.offsetWidth;
             const targetLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-            character.style.transition = 'left 1.5s ease-in-out';
+            character.style.transition = 'left 1.5s ease-in-out'; // Chuyển động mượt mà
             character.style.left = `${targetLeft}px`;
+            // Sau khi hoàn thành chuyển động, reset lại transition để các bước nhỏ sau đó nhanh hơn
             setTimeout(() => {
                 character.style.transition = 'left 0.5s ease-out';
             }, 1500);
@@ -798,12 +835,9 @@
         }
 
         function resetGame() {
-            currentQuestionIndex = 0;
-            score = 0;
-            selectRandomQuestions();
-            loadQuestion(selectedQuestions[currentQuestionIndex]);
-            updateScore();
-            updateCharacterAndCastlePosition();
+            // Khi nhấn chơi lại, xóa tất cả trạng thái và quay về index.html để bắt đầu mới
+            localStorage.removeItem('selectedQuestions');
+            window.location.href = 'index.html';
         }
 
         function showFireworks() {
