@@ -22,7 +22,7 @@
             min-height: 120px;
             max-height: 300px;
             transition: height 0.3s ease;
-            white-space: pre-wrap; /* Giữ nguyên định dạng xuống dòng */
+            white-space: pre-wrap;
         }
         .action-btn {
             transition: all 0.2s ease;
@@ -91,12 +91,28 @@
         .btn-danger:hover {
             background-color: #dc2626;
         }
-        .btn-purple {
-            background-color: #8b5cf6;
-            color: white;
+        
+        /* Guide styling */
+        .guide-container {
+            position: relative;
+            display: inline-block;
         }
-        .btn-purple:hover {
-            background-color: #7c3aed;
+        .guide-content {
+            display: none;
+            position: absolute;
+            background-color: #f9fafb;
+            min-width: 280px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+        }
+        .guide-container:hover .guide-content {
+            display: block;
         }
         
         /* Responsive adjustments */
@@ -109,6 +125,13 @@
             .action-btn {
                 flex: 1 0 calc(50% - 0.5rem);
                 max-width: calc(50% - 0.5rem);
+            }
+            .guide-content {
+                min-width: 200px;
+                left: 0;
+                transform: none;
+                right: 0;
+                margin: 0 auto;
             }
         }
     </style>
@@ -146,9 +169,6 @@
                 <button id="editBtn" class="action-btn btn-warning rounded-lg">
                     Chỉnh sửa
                 </button>
-                <button id="formatBtn" class="action-btn btn-purple rounded-lg">
-                    Định dạng
-                </button>
                 <button id="copyBtn" class="action-btn btn-primary rounded-lg">
                     Sao chép
                 </button>
@@ -158,12 +178,30 @@
                 <button id="deleteBtn" class="action-btn btn-danger rounded-lg">
                     Xoá
                 </button>
+                <div class="guide-container">
+                    <button class="action-btn bg-gray-500 hover:bg-gray-600 text-white rounded-lg px-4 py-2">
+                        Hướng dẫn
+                    </button>
+                    <div class="guide-content">
+                        <h3 class="font-bold mb-2">Hướng dẫn sử dụng:</h3>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Nhấn nút Micro để bắt đầu ghi âm</li>
+                            <li>Nhấn lại nút Micro để dừng</li>
+                            <li>Văn bản sẽ tự động hiển thị tại đây</li>
+                            <li>Dùng nút "Chỉnh sửa" để sửa trực tiếp</li>
+                            <li>"Sao chép" để copy văn bản</li>
+                            <li>"Chia sẻ" để gửi qua ứng dụng khác</li>
+                            <li>"Xoá" để xóa toàn bộ nội dung</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
     <footer class="bg-gray-200 py-4 text-center text-gray-600 text-sm">
         <p>Ứng dụng chuyển giọng nói thành văn bản | Hỗ trợ tiếng Việt</p>
+        <p class="mt-1">© 2025 - Tạo bởi Phan Anh</p>
     </footer>
 
     <script>
@@ -182,7 +220,6 @@
         const shareBtn = document.getElementById('shareBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const editBtn = document.getElementById('editBtn');
-        const formatBtn = document.getElementById('formatBtn');
         const waveContainer = document.getElementById('waveContainer');
 
         // Variable to prevent duplicate results
@@ -223,7 +260,7 @@
             }
         }
 
-        // Hàm tự động định dạng văn bản (cải tiến thêm dấu phẩy)
+        // Hàm tự động định dạng văn bản (giữ lại để xử lý tự động)
         function autoFormatText(text) {
             if (!text) return text;
             
@@ -256,8 +293,7 @@
                 }
             }
             
-            // 2. Thêm dấu phẩy sau các từ nối thông dụng (cải tiến thêm nhiều trường hợp)
-            const conjunctions = ['nhưng', 'và', 'hoặc', 'hay', 'thì', 'mà', 'nên', 'vì', 'rồi', 'sau đó', 'tuy nhiên', 'vậy nên'];
+            // 2. Thêm dấu phẩy sau các từ nối thông dụng
             const commaBeforePatterns = [
                 /\snhưng\s/gi,
                 /\svà\s/gi,
@@ -274,7 +310,6 @@
                 /\snhư\s/gi
             ];
             
-            // Thêm dấu phẩy trước các từ nối
             commaBeforePatterns.forEach(pattern => {
                 formattedText = formattedText.replace(pattern, match => {
                     return match.trim() === 'và' ? ' và ' : `, ${match.trim()} `;
@@ -284,7 +319,7 @@
             // 3. Xử lý dấu câu liền nhau
             formattedText = formattedText.replace(/([.!?])[.!?]+/g, '$1');
             
-            // 4. Loại bỏ khoảng trắng thừa và thêm khoảng trắng sau dấu phẩy nếu thiếu
+            // 4. Loại bỏ khoảng trắng thừa và thêm khoảng trắng sau dấu phẩy
             formattedText = formattedText
                 .replace(/\s+/g, ' ')
                 .replace(/,\s*/g, ', ')
@@ -408,13 +443,6 @@
         editBtn.addEventListener('click', () => {
             textOutput.focus();
             status.innerText = 'Bạn có thể chỉnh sửa văn bản trực tiếp trong khung này';
-        });
-
-        formatBtn.addEventListener('click', () => {
-            const currentText = textOutput.innerText;
-            textOutput.innerText = autoFormatText(currentText);
-            status.innerText = 'Đã tự động định dạng văn bản';
-            setTimeout(() => status.innerText = '', 2000);
         });
 
         // Auto-resize text area
