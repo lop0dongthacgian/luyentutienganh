@@ -3,934 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Học tiếng Anh vui nhộn</title>
+    <title>Chuyển giọng nói thành văn bản</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #B8E6F0 0%, #D1F2FF 50%, #E8F8FF 100%);
-            overflow-x: hidden;
-            user-select: none;
-            touch-action: manipulation;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Custom styles */
+        .microphone {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .game-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 0;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
-            overflow: hidden;
+        .microphone.active {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
-        .character {
-            position: absolute;
-            bottom: 100px;
-            left: 0; 
-            width: 180px;
-            height: 180px;
-            background-image: url('image/hs.gif');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            transition: left 0.5s ease-out;
-            z-index: 12;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+        .text-output {
+            min-height: 120px;
+            max-height: 300px;
+            transition: height 0.3s ease;
         }
-
-        #background-co { 
-            position: absolute;
-            bottom: 100px;
-            left: 5px;
-            width: 180px;
-            height: 180px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            z-index: 0;
-            pointer-events: none;
-            transition: background-image 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        .action-btn:hover {
+            transform: translateY(-2px);
         }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        .castle {
-            position: absolute;
-            right: 0;
-            bottom: 100px;
-            width: 160px;
-            height: 160px;
-            z-index: 12;
-            transition: opacity 0.8s ease-in-out;
-        }
-        .castle img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        .content-wrapper {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            padding-top: 20px;
-            margin-bottom: 250px;
-            z-index: 50;
-            align-items: center;
-            justify-content: flex-start;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .question-container {
-            background: rgba(255, 255, 255, 0.0);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: none;
-            width: 90%;
-            max-width: 600px;
-        }
-        .question {
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #00008B;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-        }
-        .blanks {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .blank {
-            width: 35px;
-            height: 45px;
-            border-bottom: 4px solid #FF6B6B;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            font-size: 28px;
-            font-weight: bold;
-            color: #E74C3C;
-        }
-        .blank:not(:empty) {
-            border-bottom-color: #4ECDC4;
-            color: #2E7D32;
-        }
-        .keyboard-container {
-            margin-top: 5px;
-            width: 90%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 100;
-        }
-        .keyboard {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
-        }
-        .key {
-            width: calc(10% - 8px);
-            max-width: 45px;
-            height: 45px;
-            background: #FFD700;
-            border: 2px solid #FF8C00;
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.3s;
-        }
-        .key:hover {
-            background: #FFC107;
-            transform: scale(1.05);
-        }
-        .key.used {
-            background: #ccc;
-            color: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .controls {
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-            width: 100%;
-            max-width: 600px;
-        }
-        .btn {
-            padding: 12px 24px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-grow: 1;
-            margin: 0 5px;
-        }
-        .btn:hover {
-            background: #45a049;
-            transform: scale(1.05);
-        }
-        .score-container {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 223, 0, 0.8) 100%);
-            padding: 12px 20px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #2E4057;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            backdrop-filter: blur(10px);
-            flex-grow: 2;
-            text-align: center;
-            margin: 0 5px;
-        }
-        .score-container::before {
-            content: "⭐ ";
-            font-size: 20px;
-        }
-        .grass-road {
-            position: absolute;
-            z-index: 11;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background-color: transparent;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 10px;
-            box-sizing: border-box;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        .grass-road img {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-        .grass-text {
-            position: absolute;
-            top: 30px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #FFF;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            z-index: 2;
-            animation: pulse 1.5s infinite alternate;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.05); opacity: 0.9; }
-        }
-        @keyframes flowersWave {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-        #fireworks {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            display: none;
-        }
-        .firework {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            animation: fireworkExplode 1s forwards;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
-        }
-        @keyframes fireworkExplode {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) scale(0);
-                opacity: 0;
-            }
-        }
-        @keyframes fireworkParticle {
-            0% {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
-        }
-        .temporary-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /* === ĐÃ CHỈNH SỬA PHẦN NÀY === */
-            background: linear-gradient(45deg, #ff6b6b, #ffe66d, #4ecdc4, #40c4ff); /* Màu sắc rực rỡ */
-            color: white;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-            z-index: 1001;
-            box-shadow: 0 0 30px rgba(255, 255, 0, 0.8), 0 0 60px rgba(0, 255, 255, 0.6); /* Nổi bật hơn */
-            animation: fadeInOut 8s forwards; /* Tăng thời gian hiển thị */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Thêm đổ bóng chữ */
-            /* === KẾT THÚC CHỈNH SỬA === */
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translate(-50%, -60%); }
-            10% { opacity: 1; transform: translate(-50%, -50%); }
-            90% { opacity: 1; transform: translate(-50%, -50%); } /* Giữ opacity 1 lâu hơn */
-            100% { opacity: 0; transform: translate(-50%, -40%); }
-        }
-        .footer-text {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-            color: #FFFFFF;
-            z-index: 12;
-            font-weight: bold;
-            text-shadow: none;
-        }
-        .sound-toggle-btn {
-            padding: 8px 16px;
-            background: #FF5722;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-grow: 1;
-            margin: 0 5px;
-        }
-        .sound-toggle-btn:hover {
-            background: #E64A19;
-            transform: scale(1.05);
-        }
-        .sun-overlay {
-            position: absolute;
-            top: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 60px;
-            z-index: 3;
-            pointer-events: none;
-            transition: opacity 0.8s ease-in-out;
-        }
-        /* Hiệu ứng fade cho ảnh */
-        .fade-out {
-            opacity: 0;
-        }
-        .fade-in {
-            opacity: 1;
-        }
-
-        /* DESKTOP RESPONSIVE - Tối ưu cho màn hình lớn */
-        @media (min-width: 768px) {
-            .game-container {
-                min-height: 85vh;
-                max-width: 1200px;
-                margin: 20px auto;
-                border-radius: 20px;
-                box-shadow: 0 10px 50px rgba(0,0,0,0.15);
-            }
-            .content-wrapper {
-                padding: 40px;
-                margin-bottom: 300px;
-            }
-            .question-container {
-                padding: 30px;
-                margin-bottom: 30px;
-                max-width: 800px;
-            }
-            .question {
-                font-size: 32px;
-                margin-bottom: 20px;
-            }
-            .blanks {
-                gap: 15px;
-                margin: 20px 0;
-            }
-            .blank {
-                width: 55px;
-                height: 65px;
-                font-size: 36px;
-                border-bottom: 5px solid #FF6B6B;
-            }
-            .keyboard-container {
-                margin-top: 20px;
-                max-width: 800px;
-            }
-            .keyboard {
-                    gap: 12px;
-                    justify-content: center;
-                    max-width: 700px;
-            }
-            .key {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-                border-radius: 12px;
-                border: 3px solid #FF8C00;
-            }
-            .key:hover {
-                transform: scale(1.1);
-                box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
-            }
-            .controls {
-                margin-bottom: 25px;
-                max-width: 800px;
-                padding: 0 20px;
-            }
-            .btn {
-                padding: 18px 35px;
-                font-size: 22px;
-                border-radius: 30px;
-            }
-            .score-container {
-                padding: 18px 30px;
-                font-size: 22px;
-                border-radius: 25px;
-            }
-            .score-container::before {
-                font-size: 24px;
-            }
-            .sound-toggle-btn {
-                padding: 12px 20px;
-                font-size: 18px;
-                border-radius: 25px;
-            }
-            .character {
-                bottom: 120px;
-                width: 250px;
-                height: 250px;
-            }
-            .castle {
-                bottom: 120px;
-                width: 280px;
-                height: 280px;
-            }
-            #background-co {
-                bottom: 120px;
-            }
-            .sun-overlay {
-                width: 80px;
-                height: 80px;
-                top: -90px;
-            }
-            .grass-road {
-                height: 120px;
-                border-bottom-left-radius: 20px;
-                border-bottom-right-radius: 20px;
-            }
-            .grass-text {
-                font-size: 28px;
-                top: 40px;
-            }
-            .temporary-message {
-                font-size: 32px;
-                padding: 30px 60px;
-                border-radius: 20px;
-            }
-            .footer-text {
-                font-size: 16px;
-                bottom: 15px;
-            }
-        }
-        /* LARGE DESKTOP - Màn hình rất lớn */
-        @media (min-width: 1200px) {
-            .game-container {
-                max-width: 1400px;
-                min-height: 90vh;
-            }
-            .question {
-                font-size: 38px;
-            }
-            .blank {
-                width: 65px;
-                height: 75px;
-                font-size: 42px;
-            }
-            .key {
-                width: 70px;
-                height: 70px;
-                font-size: 28px;
-            }
-            .btn {
-                padding: 22px 40px;
-                font-size: 24px;
-            }
-            .score-container {
-                padding: 22px 35px;
-                font-size: 24px;
-            }
-            .character {
-                width: 280px;
-                height: 280px;
-            }
-            .castle {
-                width: 320px;
-                height: 320px;
-            }
-            .grass-text {
-                font-size: 32px;
-                top: 50px;
-            }
-        }
-        /* Mobile tối ưu */
-        @media (max-width: 767px) {
-            .game-container {
-                border-radius: 0;
-                min-height: 100vh;
-            }
-            .content-wrapper {
-                padding: 15px;
-                margin-bottom: 250px;
-            }
-            .question {
-                font-size: 18px;
-            }
-            .blank {
-                width: 30px;
-                height: 40px;
-                font-size: 24px;
-            }
-            .keyboard-container {
-                margin-top: 5px;
-            }
-            .key {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-            }
-            .btn {
-                padding: 10px 20px;
-                font-size: 16px;
-            }
-            .score-container {
-                padding: 10px 16px;
-                font-size: 16px;
-            }
-            .sound-toggle-btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-        }
-        @media (max-height: 600px) {
-            .content-wrapper {
-                padding-top: 10px;
-                margin-bottom: 200px;
-            }
-            .question-container {
-                margin-bottom: 10px;
-            }
-            .keyboard-container {
-                margin-top: 5px;
-            }
-            .controls {
-                margin-top: 10px;
-            }
-             .character, .castle {
-                bottom: 80px;
-            }
-            .grass-road {
-                height: 80px;
-                border-bottom-left-radius: 0 !important;
-                border-bottom-right-radius: 0 !important;
-            }
-            .game-container {
-                border-radius: 0 !important;
-            }
-            .temporary-message {
-                font-size: 20px;
-                padding: 15px 30px;
-            }
+        .action-btn:active {
+            transform: translateY(1px);
         }
     </style>
 </head>
-<body>
-    <div class="game-container">
-        <div class="content-wrapper">
-            <div class="controls">
-                <button class="btn" id="reset">Chơi lại</button>
-                <div class="score-container" id="score">Điểm: 0</div>
-                <button class="sound-toggle-btn" id="soundToggle">Tắt âm thanh</button>
-            </div>
-            <div class="question-container">
-                <div class="question" id="question">Câu hỏi sẽ hiển thị ở đây</div>
-                <div class="blanks" id="blanks"></div>
-            </div>
-            <div class="keyboard-container">
-                <div class="keyboard" id="keyboard"></div>
-            </div>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-blue-600 text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-2xl font-bold">Chuyển giọng nói thành văn bản</h1>
+            <p class="text-blue-100">Hỗ trợ tiếng Việt</p>
         </div>
-        <div class="grass-road">
-            <img id="grass-image" src="image/hoa.png" alt="Grass with flowers">
-            <div class="grass-text">Hoàn thành bài tập để đến trường</div>
-        </div>
-        <div class="castle">
-            <img id="castle-image" src="image/th1.png" alt="Castle">
-            <img id="sun-image" src="image/mt1.gif" alt="Mặt trời" class="sun-overlay">
-        </div>
-        <div id="background-co"></div> 
+    </header>
 
-        <div class="character" id="character"></div>
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-3xl">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Microphone button -->
+            <div class="p-6 flex justify-center">
+                <button id="micBtn" class="microphone w-20 h-20 rounded-full bg-blue-500 text-white flex items-center justify-center focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-10a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </button>
+            </div>
 
-        <div id="fireworks"></div>
-        <div class="footer-text">© Lớp học 0 đồng Trung Bình A3</div>
-    </div>
-    <script src="questions.js"></script>
+            <!-- Status message -->
+            <div id="status" class="px-6 text-center text-gray-500 text-sm mb-2"></div>
+
+            <!-- Text output -->
+            <div class="px-6 pb-6">
+                <div id="textOutput" class="text-output bg-gray-50 rounded-lg p-4 overflow-y-auto border border-gray-200" contenteditable="true"></div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="bg-gray-100 px-6 py-4 flex justify-center space-x-4">
+                <button id="editBtn" class="action-btn bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-transform">
+                    Chỉnh sửa
+                </button>
+                <button id="copyBtn" class="action-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-transform">
+                    Sao chép
+                </button>
+                <button id="shareBtn" class="action-btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-transform">
+                    Chia sẻ
+                </button>
+                <button id="deleteBtn" class="action-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-transform">
+                    Xoá
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-200 py-4 text-center text-gray-600 text-sm">
+        <p>Ứng dụng chuyển giọng nói thành văn bản | Hỗ trợ tiếng Việt</p>
+    </footer>
+
     <script>
-        // allQuestions được định nghĩa trong questions.js
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let currentAnswer = '';
-        let usedLetters = [];
-        let selectedQuestions = [];
-        const totalQuestionsForGame = 5; // Tổng số câu hỏi cho một lượt chơi (5 đoạn đường = 5 câu)
+        // Speech recognition setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'vi-VN';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
-        let soundOn = false;
-        let backgroundMusic = new Audio('audio/nen.mp3');
-        backgroundMusic.loop = true;
-        let correctSound = new Audio('audio/correct.mp3');
-        let wrongSound = new Audio('audio/wrong.mp3');
+        // DOM elements
+        const micBtn = document.getElementById('micBtn');
+        const textOutput = document.getElementById('textOutput');
+        const status = document.getElementById('status');
+        const copyBtn = document.getElementById('copyBtn');
+        const shareBtn = document.getElementById('shareBtn');
+        const deleteBtn = document.getElementById('deleteBtn');
+        const editBtn = document.getElementById('editBtn');
 
-        // Mảng chứa đường dẫn ảnh cho từng stage
-        const stageImages = [
-            { co: 'image/co1.png', mt: 'image/mt1.gif', th: 'image/th1.png', hoa: 'image/hoa.png' },
-            { co: 'image/co2.png', mt: 'image/mt2.gif', th: 'image/th2.png', hoa: 'image/hoa.png' },
-            { co: 'image/co3.png', mt: 'image/mt3.gif', th: 'image/th3.png', hoa: 'image/hoa.png' },
-            { co: 'image/co4.png', mt: 'image/mt4.gif', th: 'image/th4.png', hoa: 'image/hoa.png' },
-            { co: 'image/co5.png', mt: 'image/mt5.gif', th: 'image/th5.png', hoa: 'image/hoa.png' }
-        ];
+        // Variable to prevent duplicate results
+        let lastResult = '';
+        let isListening = false;
 
-        function initGame() {
-            document.addEventListener('keydown', initialSoundPlay, { once: true });
-            document.addEventListener('click', initialSoundPlay, { once: true });
-            
-            resetGame(); // Bắt đầu một lượt chơi mới khi trang được tải
-        }
+        // Initialize
+        textOutput.innerText = 'Nhấn vào nút micro để bắt đầu ghi âm...';
 
-        function initialSoundPlay() {
-            if (!soundOn) {
-                toggleSound(); 
-            }
-        }
-
-        function toggleSound() {
-            soundOn = !soundOn;
-            const soundToggleButton = document.getElementById('soundToggle');
-            if (soundOn) {
-                backgroundMusic.play().catch(e => console.log("Lỗi phát nhạc nền:", e));
-                soundToggleButton.textContent = 'Tắt âm thanh';
-            } else {
-                backgroundMusic.pause();
-                soundToggleButton.textContent = 'Bật âm thanh';
-            }
-        }
-
-        function updateCharacterAndCastlePosition() {
-            const character = document.getElementById('character');
-            const castle = document.querySelector('.castle');
-            character.style.left = `0px`;
-            castle.style.right = `0px`;
-        }
-
-        function selectRandomQuestions() {
-            const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
-            selectedQuestions = shuffled.slice(0, Math.min(totalQuestionsForGame, allQuestions.length));
-        }
-
-        function loadQuestion(question) {
-            currentAnswer = question.plainAnswer.join('');
-            usedLetters = [];
-            document.getElementById('question').textContent = question.question;
-            createBlanks();
-            setupKeyboard(); // Đảm bảo bàn phím được tạo lại mỗi khi tải câu hỏi mới
-            resetKeyboard(); // Và reset trạng thái các phím
-            const character = document.getElementById('character');
-            character.style.left = `0px`; // Đặt lại vị trí nhân vật khi chuyển câu
-        }
-
-        function createBlanks() {
-            const blanksContainer = document.getElementById('blanks');
-            blanksContainer.innerHTML = '';
-            for (let i = 0; i < currentAnswer.length; i++) {
-                const blank = document.createElement('div');
-                blank.className = 'blank';
-                blank.id = `blank-${i}`;
-                blanksContainer.appendChild(blank);
-            }
-        }
-
-        function setupKeyboard() {
-            const keyboard = document.getElementById('keyboard');
-            keyboard.innerHTML = ''; // Xóa bàn phím cũ trước khi tạo lại
-            for (let i = 65; i <= 90; i++) {
-                const letter = String.fromCharCode(i);
-                const key = document.createElement('div');
-                key.className = 'key';
-                key.textContent = letter;
-                key.id = `key-${letter}`;
-                key.addEventListener('click', () => handleGuess(letter));
-                keyboard.appendChild(key);
-            }
-        }
-
-        function resetKeyboard() {
-            document.querySelectorAll('.key').forEach(key => {
-                key.classList.remove('used');
-            });
-        }
-
-        function handleGuess(letter) {
-            if (usedLetters.includes(letter)) return;
-            usedLetters.push(letter);
-            document.getElementById(`key-${letter}`).classList.add('used');
-            if (currentAnswer.includes(letter)) {
-                if (soundOn) {
-                    correctSound.currentTime = 0;
-                    correctSound.play();
+        // Microphone button click handler
+        micBtn.addEventListener('click', () => {
+            if (!isListening) {
+                try {
+                    recognition.start();
+                    micBtn.classList.add('active');
+                    status.innerText = 'Đang nghe...';
+                    isListening = true;
+                } catch (error) {
+                    status.innerText = 'Lỗi khởi động micro: ' + error.message;
                 }
-                updateBlanks(letter);
-                if (checkComplete()) {
-                    score++;
-                    updateScore();
-                    moveCharacterToCastle();
-                    
-                    // Kiểm tra xem đây có phải là câu hỏi cuối cùng của lượt chơi không
-                    if (currentQuestionIndex === totalQuestionsForGame - 1) {
-                        showFireworks(); // Kích hoạt pháo hoa khi hoàn thành câu cuối
-                    }
+            } else {
+                recognition.stop();
+                micBtn.classList.remove('active');
+                status.innerText = 'Micro đã tắt';
+                isListening = false;
+            }
+        });
 
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        if (currentQuestionIndex < totalQuestionsForGame) {
-                            loadQuestion(selectedQuestions[currentQuestionIndex]);
-                            updateStageVisuals(currentQuestionIndex);
-                        } else {
-                            showTemporaryMessage("Chúc mừng! Bạn đã đến trường và hoàn thành bài tập!");
-                            setTimeout(() => {
-                                resetGame(); 
-                            }, 3000); 
-                        }
-                    }, 6000); 
+        // Speech recognition event handlers
+        recognition.onresult = (event) => {
+            const result = event.results[0][0].transcript.trim();
+            
+            // Check for duplicate results
+            if (result !== lastResult) {
+                if (textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...') {
+                    textOutput.innerText = result;
                 } else {
-                    moveCharacter(true);
+                    // Add space before appending new text
+                    textOutput.innerText += ' ' + result;
                 }
-            } else {
-                if (soundOn) {
-                    wrongSound.currentTime = 0;
-                    wrongSound.play();
-                }
-                moveCharacter(false);
-            }
-        }
-
-        function updateBlanks(letter) {
-            for (let i = 0; i < currentAnswer.length; i++) {
-                if (currentAnswer[i] === letter) {
-                    document.getElementById(`blank-${i}`).textContent = letter;
-                }
-            }
-        }
-
-        function moveCharacter(forward) {
-            const character = document.getElementById('character');
-            const gameContainer = document.querySelector('.game-container');
-            const currentLeft = parseFloat(character.style.left) || 0;
-            const step = 0.05 * gameContainer.offsetWidth; 
-            const characterWidth = character.offsetWidth;
-            const castle = document.querySelector('.castle');
-            const castleRight = parseFloat(castle.style.right) || 0;
-            const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
-            const maxLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-            
-            let newLeft;
-            if (forward) {
-                newLeft = Math.min(currentLeft + step, maxLeft);
-            } else {
-                newLeft = Math.max(currentLeft - step, 0); 
-            }
-            character.style.left = `${newLeft}px`;
-        }
-
-        function moveCharacterToCastle() {
-            const character = document.getElementById('character');
-            const castle = document.querySelector('.castle');
-            const gameContainer = document.querySelector('.game-container');
-            const castleRight = parseFloat(castle.style.right) || 0;
-            const castleLeft = gameContainer.offsetWidth - castleRight - castle.offsetWidth;
-            const characterWidth = character.offsetWidth;
-            const targetLeft = castleLeft + (castle.offsetWidth / 2) - (characterWidth / 2);
-            character.style.transition = 'left 1.5s ease-in-out'; 
-            character.style.left = `${targetLeft}px`;
-            setTimeout(() => {
-                character.style.transition = 'left 0.5s ease-out';
-            }, 1500);
-        }
-
-        function checkComplete() {
-            for (let i = 0; i < currentAnswer.length; i++) {
-                if (!document.getElementById(`blank-${i}`).textContent) return false;
-            }
-            return true;
-        }
-
-        function updateScore() {
-            document.getElementById('score').textContent = `Điểm: ${score}`;
-        }
-
-        function resetGame() {
-            currentQuestionIndex = 0;
-            score = 0;
-            selectRandomQuestions(); // Chọn 5 câu hỏi mới cho lượt chơi mới
-            loadQuestion(selectedQuestions[currentQuestionIndex]);
-            updateScore();
-            updateCharacterAndCastlePosition();
-            updateStageVisuals(currentQuestionIndex); // Cập nhật hình ảnh về stage 0 (hoặc 1)
-        }
-
-        function showFireworks() {
-            const celebration = document.getElementById('fireworks');
-            celebration.innerHTML = '';
-            celebration.style.display = 'block';
-            for (let i = 0; i < 80; i++) {
-                setTimeout(() => {
-                    createFirework();
-                }, i * 70);
-            }
-            setTimeout(() => {
-                celebration.style.display = 'none';
-            }, 3000);
-        }
-
-        function createFirework() {
-            const celebration = document.getElementById('fireworks');
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            const colors = ['#FF5252', '#FFD700', '#69F0AE', '#40C4FF', '#7C4DFF'];
-            firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            firework.style.left = `${Math.random() * 80 + 10}%`;
-            firework.style.top = `${30 + Math.random() * 50}%`;
-            celebration.appendChild(firework);
-            setTimeout(() => {
-                firework.remove();
-            }, 1000);
-        }
-
-        function showTemporaryMessage(message) {
-            const messageElement = document.createElement('div');
-            messageElement.className = 'temporary-message';
-            messageElement.textContent = message;
-            document.body.appendChild(messageElement);
-            // Thời gian hiển thị thông báo: 8 giây (5 giây lâu hơn so với 3 giây ban đầu)
-            setTimeout(() => {
-                document.body.removeChild(messageElement);
-            }, 8000); 
-        }
-
-        function updateStageVisuals(stageIndex) {
-            const currentStageImages = stageImages[stageIndex % stageImages.length]; 
-
-            const backgroundCo = document.getElementById('background-co');
-            const castleImage = document.getElementById('castle-image');
-            const sunImage = document.getElementById('sun-image');
-            const grassImage = document.getElementById('grass-image');
-
-            backgroundCo.classList.add('fade-out');
-            castleImage.classList.add('fade-out');
-            sunImage.classList.add('fade-out');
-            grassImage.classList.add('fade-out');
-
-            setTimeout(() => {
-                backgroundCo.style.backgroundImage = `url('${currentStageImages.co}')`;
-                castleImage.src = currentStageImages.th;
-                sunImage.src = currentStageImages.mt;
-                grassImage.src = currentStageImages.hoa;
-
-                backgroundCo.classList.remove('fade-out');
-                castleImage.classList.remove('fade-out');
-                sunImage.classList.remove('fade-out');
-                grassImage.classList.remove('fade-out');
+                lastResult = result;
                 
-                backgroundCo.classList.add('fade-in');
-                castleImage.classList.add('fade-in');
-                sunImage.classList.add('fade-in');
-                grassImage.classList.add('fade-in');
+                // Auto-scroll to bottom
+                textOutput.scrollTop = textOutput.scrollHeight;
+            }
+        };
 
-                setTimeout(() => {
-                    backgroundCo.classList.remove('fade-in');
-                    castleImage.classList.remove('fade-in');
-                    sunImage.classList.remove('fade-in');
-                    grassImage.classList.remove('fade-in');
-                }, 800);
-            }, 800);
-        }
+        recognition.onerror = (event) => {
+            console.error('Speech recognition error', event.error);
+            status.innerText = 'Lỗi: ' + event.error;
+            micBtn.classList.remove('active');
+            isListening = false;
+        };
 
-        document.getElementById('reset').addEventListener('click', resetGame);
-        window.addEventListener('DOMContentLoaded', initGame);
-        document.addEventListener('keydown', (e) => {
-            const key = e.key.toUpperCase();
-            if (/^[A-Z]$/.test(key)) {
-                const keyElement = document.getElementById(`key-${key}`);
-                if (keyElement && !keyElement.classList.contains('used')) {
-                    keyElement.click();
-                    keyElement.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        keyElement.style.transform = '';
-                    }, 100);
+        recognition.onend = () => {
+            if (isListening) {
+                // Restart recognition if we're still listening
+                try {
+                    recognition.start();
+                } catch (error) {
+                    console.error('Error restarting recognition:', error);
+                }
+            } else {
+                micBtn.classList.remove('active');
+            }
+        };
+
+        // Action buttons handlers
+        copyBtn.addEventListener('click', () => {
+            if (textOutput.innerText.trim()) {
+                navigator.clipboard.writeText(textOutput.innerText.trim())
+                    .then(() => {
+                        status.innerText = 'Đã sao chép vào clipboard!';
+                        setTimeout(() => status.innerText = '', 2000);
+                    })
+                    .catch(err => {
+                        status.innerText = 'Lỗi khi sao chép: ' + err;
+                    });
+            }
+        });
+
+        shareBtn.addEventListener('click', () => {
+            if (textOutput.innerText.trim()) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Văn bản đã chuyển đổi',
+                        text: textOutput.innerText.trim()
+                    }).catch(err => {
+                        status.innerText = 'Lỗi khi chia sẻ: ' + err;
+                    });
+                } else {
+                    status.innerText = 'Trình duyệt không hỗ trợ chức năng chia sẻ';
+                    setTimeout(() => status.innerText = '', 2000);
                 }
             }
+        });
+
+        deleteBtn.addEventListener('click', () => {
+            textOutput.innerText = '';
+            lastResult = '';
+            status.innerText = 'Đã xoá văn bản';
+            setTimeout(() => status.innerText = '', 2000);
+        });
+
+        editBtn.addEventListener('click', () => {
+            textOutput.focus();
+            status.innerText = 'Bạn có thể chỉnh sửa văn bản trực tiếp trong khung này';
+        });
+
+        // Auto-resize text area
+        textOutput.addEventListener('input', () => {
+            textOutput.style.height = 'auto';
+            textOutput.style.height = textOutput.scrollHeight + 'px';
         });
     </script>
 </body>
 </html>
+
