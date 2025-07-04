@@ -99,6 +99,7 @@
         let lastResult = '';
         let isListening = false;
         let speechTimeout = null;
+        let lastFinalResult = '';
 
         // Initialize
         textOutput.innerText = 'Nhấn vào nút micro để bắt đầu ghi âm...';
@@ -125,31 +126,34 @@
 
         // Speech recognition event handlers
         recognition.onresult = (event) => {
-            const interimTranscript = '';
-            let finalTranscript = '';
+            let currentText = textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...' 
+                ? '' 
+                : textOutput.innerText + ' ';
             
+            // Handle interim and final results
+            let newText = '';
             for (let i = event.resultIndex; i < event.results.length; i++) {
-                const transcript = event.results[i][0].transcript;
-                if (event.results[i].isFinal) {
-                    finalTranscript += transcript + ' ';
-                } else {
-                    interimTranscript += transcript;
+                // Only add content if it's new and meaningful
+                const transcript = event.results[i][0].transcript.trim();
+                if (transcript && 
+                    !currentText.includes(transcript) && 
+                    (!event.results[i].isFinal || !lastResult.includes(transcript))) {
+                    
+                    newText += (newText ? ' ' : '') + transcript;
                 }
             }
             
-            let displayText = '';
-            if (textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...') {
-                displayText = finalTranscript + interimTranscript;
-            } else {
-                displayText = textOutput.innerText + ' ' + finalTranscript + interimTranscript;
+            // Only update if we have new content
+            if (newText) {
+                displayText = (currentText + newText).trim().replace(/\s+/g, ' ');
+                textOutput.innerText = displayText;
+                lastResult = displayText;
             }
             
-            // Remove duplicates and extra spaces
-            displayText = displayText.trim().replace(/\s+/g, ' ');
-            
-            // Update text
-            textOutput.innerText = displayText;
-            lastResult = displayText;
+            // Update last result for final transcripts only
+            if (event.results[event.results.length - 1].isFinal) {
+                lastResult = textOutput.innerText;
+            }
             
             // Auto-scroll to bottom
             textOutput.scrollTop = textOutput.scrollHeight;
