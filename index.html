@@ -22,12 +22,12 @@
             min-height: 120px;
             max-height: 300px;
             transition: height 0.3s ease;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Giữ nguyên định dạng xuống dòng */
         }
         .action-btn {
             transition: all 0.2s ease;
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
         }
         .action-btn:hover {
             transform: translateY(-2px);
@@ -62,93 +62,62 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
         
-        /* Header guide styling */
-        .header-guide {
-            position: relative;
-            display: inline-block;
+        /* Button styling */
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
         }
-        .guide-content {
-            display: none;
-            position: absolute;
-            background-color: #f9fafb;
-            width: 280px;
-            max-width: 90vw;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 100;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            color: #333;
+        .btn-primary:hover {
+            background-color: #2563eb;
         }
-        .guide-trigger {
-            background: none;
-            border: none;
-            color: #bfdbfe;
-            font-size: 0.9rem;
-            cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            transition: all 0.2s;
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
         }
-        .guide-trigger:hover {
-            background: rgba(255,255,255,0.1);
+        .btn-warning:hover {
+            background-color: #d97706;
         }
-        .header-guide:hover .guide-content,
-        .header-guide:focus-within .guide-content {
-            display: block;
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        .btn-purple {
+            background-color: #8b5cf6;
+            color: white;
+        }
+        .btn-purple:hover {
+            background-color: #7c3aed;
         }
         
         /* Responsive adjustments */
         @media (max-width: 640px) {
             .action-buttons {
+                flex-wrap: wrap;
                 gap: 0.5rem;
                 justify-content: center;
             }
             .action-btn {
-                flex: 1;
-                min-width: calc(50% - 0.5rem);
-            }
-            .guide-content {
-                font-size: 0.8rem;
-                padding: 0.75rem;
+                flex: 1 0 calc(50% - 0.5rem);
+                max-width: calc(50% - 0.5rem);
             }
         }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <header class="gradient-bg text-white py-4 shadow-md relative">
+    <header class="gradient-bg text-white py-4 shadow-md">
         <div class="container mx-auto px-4 text-center">
-            <div class="flex justify-between items-center">
-                <div class="flex-1"></div>
-                <div class="flex-1 text-center">
-                    <h1 class="text-2xl font-bold">Chuyển giọng nói thành văn bản</h1>
-                    <p class="text-blue-100">Hỗ trợ tiếng Việt</p>
-                </div>
-                <div class="flex-1 flex justify-end">
-                    <div class="header-guide">
-                        <button class="guide-trigger focus:outline-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </button>
-                        <div class="guide-content">
-                            <h3 class="font-bold mb-2 text-sm sm:text-base">Hướng dẫn sử dụng:</h3>
-                            <ul class="list-disc pl-5 space-y-1 text-xs sm:text-sm">
-                                <li>Nhấn nút Micro để bắt đầu ghi âm</li>
-                                <li>Nhấn lại nút Micro để dừng</li>
-                                <li>Văn bản sẽ tự động hiển thị</li>
-                                <li>Dùng nút "Chỉnh sửa" để sửa trực tiếp</li>
-                                <li>"Sao chép" để copy văn bản</li>
-                                <li>"Chia sẻ" để gửi qua ứng dụng khác</li>
-                                <li>"Xoá" để xóa toàn bộ nội dung</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h1 class="text-2xl font-bold">Chuyển giọng nói thành văn bản</h1>
+            <p class="text-blue-100">Hỗ trợ tiếng Việt</p>
         </div>
     </header>
 
@@ -169,13 +138,16 @@
 
             <!-- Text output -->
             <div class="px-6 pb-6">
-                <div id="textOutput" class="text-output bg-gray-50 rounded-lg p-4 overflow-y-auto border border-gray-200" contenteditable="true">Nhấn vào nút micro để bắt đầu ghi âm...</div>
+                <div id="textOutput" class="text-output bg-gray-50 rounded-lg p-4 overflow-y-auto border border-gray-200" contenteditable="true"></div>
             </div>
 
-            <!-- Action buttons - now 4 buttons -->
-            <div class="bg-gray-100 px-4 py-3 flex flex-wrap justify-center gap-3 action-buttons">
+            <!-- Action buttons - now more compact -->
+            <div class="bg-gray-100 px-4 py-3 flex flex-wrap justify-center gap-2 action-buttons">
                 <button id="editBtn" class="action-btn btn-warning rounded-lg">
                     Chỉnh sửa
+                </button>
+                <button id="formatBtn" class="action-btn btn-purple rounded-lg">
+                    Định dạng
                 </button>
                 <button id="copyBtn" class="action-btn btn-primary rounded-lg">
                     Sao chép
@@ -192,7 +164,6 @@
 
     <footer class="bg-gray-200 py-4 text-center text-gray-600 text-sm">
         <p>Ứng dụng chuyển giọng nói thành văn bản | Hỗ trợ tiếng Việt</p>
-        <p class="mt-1">© 2025 - Tạo bởi Phan Anh</p>
     </footer>
 
     <script>
@@ -211,8 +182,8 @@
         const shareBtn = document.getElementById('shareBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const editBtn = document.getElementById('editBtn');
+        const formatBtn = document.getElementById('formatBtn');
         const waveContainer = document.getElementById('waveContainer');
-        const guideTrigger = document.querySelector('.guide-trigger');
 
         // Variable to prevent duplicate results
         let lastResult = '';
@@ -252,6 +223,81 @@
             }
         }
 
+        // Hàm tự động định dạng văn bản (cải tiến thêm dấu phẩy)
+        function autoFormatText(text) {
+            if (!text) return text;
+            
+            // 1. Xử lý các câu
+            let sentences = text.split(/([.!?]+\s*)/);
+            let formattedText = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < sentences.length; i++) {
+                if (sentences[i].trim().length > 0) {
+                    let sentence = sentences[i].trim();
+                    
+                    // Xử lý dấu ngoặc kép
+                    const quoteCount = (sentence.match(/"/g) || []).length;
+                    if (quoteCount % 2 !== 0) {
+                        inQuotes = !inQuotes;
+                    }
+                    
+                    if (sentence.length > 0) {
+                        // Viết hoa chữ cái đầu
+                        sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+                        
+                        // Thêm dấu chấm nếu cần
+                        if (i < sentences.length - 1 && !/[.!?]$/.test(sentence) && !inQuotes) {
+                            sentence += '.';
+                        }
+                        
+                        formattedText += sentence + ' ';
+                    }
+                }
+            }
+            
+            // 2. Thêm dấu phẩy sau các từ nối thông dụng (cải tiến thêm nhiều trường hợp)
+            const conjunctions = ['nhưng', 'và', 'hoặc', 'hay', 'thì', 'mà', 'nên', 'vì', 'rồi', 'sau đó', 'tuy nhiên', 'vậy nên'];
+            const commaBeforePatterns = [
+                /\snhưng\s/gi,
+                /\svà\s/gi,
+                /\shoặc\s/gi,
+                /\shay\s/gi,
+                /\sthì\s/gi,
+                /\smà\s/gi,
+                /\snên\s/gi,
+                /\svì\s/gi,
+                /\srồi\s/gi,
+                /\ssau đó\s/gi,
+                /\stuy nhiên\s/gi,
+                /\svậy nên\s/gi,
+                /\snhư\s/gi
+            ];
+            
+            // Thêm dấu phẩy trước các từ nối
+            commaBeforePatterns.forEach(pattern => {
+                formattedText = formattedText.replace(pattern, match => {
+                    return match.trim() === 'và' ? ' và ' : `, ${match.trim()} `;
+                });
+            });
+            
+            // 3. Xử lý dấu câu liền nhau
+            formattedText = formattedText.replace(/([.!?])[.!?]+/g, '$1');
+            
+            // 4. Loại bỏ khoảng trắng thừa và thêm khoảng trắng sau dấu phẩy nếu thiếu
+            formattedText = formattedText
+                .replace(/\s+/g, ' ')
+                .replace(/,\s*/g, ', ')
+                .trim();
+            
+            // 5. Đảm bảo có dấu chấm cuối câu
+            if (formattedText.length > 0 && !/[.!?]$/.test(formattedText)) {
+                formattedText += '.';
+            }
+            
+            return formattedText;
+        }
+
         // Microphone button click handler
         micBtn.addEventListener('click', () => {
             if (!isListening) {
@@ -277,13 +323,19 @@
         recognition.onresult = (event) => {
             const rawResult = event.results[0][0].transcript.trim();
             
+            // Check for duplicate results
             if (rawResult !== lastResult) {
+                const formattedResult = autoFormatText(rawResult);
+                
                 if (textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...') {
-                    textOutput.innerText = rawResult;
+                    textOutput.innerText = formattedResult;
                 } else {
-                    textOutput.innerText += ' ' + rawResult;
+                    // Thêm khoảng trắng trước khi nối câu mới
+                    textOutput.innerText += ' ' + formattedResult;
                 }
                 lastResult = rawResult;
+                
+                // Auto-scroll to bottom
                 textOutput.scrollTop = textOutput.scrollHeight;
             }
         };
@@ -298,6 +350,7 @@
 
         recognition.onend = () => {
             if (isListening) {
+                // Restart recognition if we're still listening
                 try {
                     recognition.start();
                 } catch (error) {
@@ -332,6 +385,7 @@
                         status.innerText = 'Lỗi khi chia sẻ: ' + err;
                     });
                 } else {
+                    // Fallback khi trình duyệt không hỗ trợ share API
                     navigator.clipboard.writeText(textOutput.innerText.trim())
                         .then(() => {
                             status.innerText = 'Đã sao chép vào clipboard!';
@@ -356,25 +410,17 @@
             status.innerText = 'Bạn có thể chỉnh sửa văn bản trực tiếp trong khung này';
         });
 
+        formatBtn.addEventListener('click', () => {
+            const currentText = textOutput.innerText;
+            textOutput.innerText = autoFormatText(currentText);
+            status.innerText = 'Đã tự động định dạng văn bản';
+            setTimeout(() => status.innerText = '', 2000);
+        });
+
         // Auto-resize text area
         textOutput.addEventListener('input', () => {
             textOutput.style.height = 'auto';
             textOutput.style.height = textOutput.scrollHeight + 'px';
-        });
-
-        // Improved guide for touch devices
-        guideTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const guideContent = document.querySelector('.guide-content');
-            guideContent.style.display = guideContent.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Close guide when clicking outside
-        document.addEventListener('click', () => {
-            const guideContent = document.querySelector('.guide-content');
-            if (guideContent.style.display === 'block') {
-                guideContent.style.display = 'none';
-            }
         });
     </script>
 </body>
