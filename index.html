@@ -281,20 +281,26 @@
         });
 
         shareBtn.addEventListener('click', () => {
-            if (textOutput.innerText.trim()) {
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'Văn bản đã chuyển đổi',
-                        text: textOutput.innerText.trim()
-                    }).catch(err => {
-                        status.innerText = 'Lỗi khi chia sẻ: ' + err;
-                    });
-                } else {
-                    status.innerText = 'Trình duyệt không hỗ trợ chức năng chia sẻ';
+    if (textOutput.innerText.trim()) {
+        if (navigator.share) {
+            navigator.share({
+                text: textOutput.innerText.trim() // Chỉ gửi nội dung chính
+            }).catch(err => {
+                status.innerText = 'Lỗi khi chia sẻ: ' + err;
+            });
+        } else {
+            // Fallback khi trình duyệt không hỗ trợ share API
+            navigator.clipboard.writeText(textOutput.innerText.trim())
+                .then(() => {
+                    status.innerText = 'Đã sao chép vào clipboard!';
                     setTimeout(() => status.innerText = '', 2000);
-                }
-            }
-        });
+                })
+                .catch(err => {
+                    status.innerText = 'Lỗi khi sao chép: ' + err;
+                });
+        }
+    }
+});
 
         deleteBtn.addEventListener('click', () => {
             textOutput.innerText = '';
