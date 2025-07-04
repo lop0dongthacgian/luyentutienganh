@@ -22,6 +22,12 @@
             min-height: 120px;
             max-height: 300px;
             transition: height 0.3s ease;
+            white-space: pre-wrap; /* Giữ nguyên định dạng xuống dòng */
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            padding: 0.4rem 0.8rem;
         }
         .action-btn:hover {
             transform: translateY(-2px);
@@ -54,17 +60,6 @@
         /* Gradient background */
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-        }
-        
-        /* Text output styling */
-        .text-output {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #334155;
         }
         
         /* Button styling */
@@ -103,6 +98,19 @@
         .btn-purple:hover {
             background-color: #7c3aed;
         }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .action-buttons {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                justify-content: center;
+            }
+            .action-btn {
+                flex: 1 0 calc(50% - 0.5rem);
+                max-width: calc(50% - 0.5rem);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -133,21 +141,21 @@
                 <div id="textOutput" class="text-output bg-gray-50 rounded-lg p-4 overflow-y-auto border border-gray-200" contenteditable="true"></div>
             </div>
 
-            <!-- Action buttons -->
-            <div class="bg-gray-100 px-6 py-4 flex justify-center space-x-4">
-                <button id="editBtn" class="action-btn btn-warning px-4 py-2 rounded-lg transition-transform">
+            <!-- Action buttons - now more compact -->
+            <div class="bg-gray-100 px-4 py-3 flex flex-wrap justify-center gap-2 action-buttons">
+                <button id="editBtn" class="action-btn btn-warning rounded-lg">
                     Chỉnh sửa
                 </button>
-                <button id="formatBtn" class="action-btn btn-purple px-4 py-2 rounded-lg transition-transform">
+                <button id="formatBtn" class="action-btn btn-purple rounded-lg">
                     Định dạng
                 </button>
-                <button id="copyBtn" class="action-btn btn-primary px-4 py-2 rounded-lg transition-transform">
+                <button id="copyBtn" class="action-btn btn-primary rounded-lg">
                     Sao chép
                 </button>
-                <button id="shareBtn" class="action-btn btn-success px-4 py-2 rounded-lg transition-transform">
+                <button id="shareBtn" class="action-btn btn-success rounded-lg">
                     Chia sẻ
                 </button>
-                <button id="deleteBtn" class="action-btn btn-danger px-4 py-2 rounded-lg transition-transform">
+                <button id="deleteBtn" class="action-btn btn-danger rounded-lg">
                     Xoá
                 </button>
             </div>
@@ -215,7 +223,7 @@
             }
         }
 
-        // Hàm tự động định dạng văn bản
+        // Hàm tự động định dạng văn bản (cải tiến thêm dấu phẩy)
         function autoFormatText(text) {
             if (!text) return text;
             
@@ -248,18 +256,39 @@
                 }
             }
             
-            // 2. Thêm dấu phẩy sau các từ nối thông dụng
-            const conjunctions = ['nhưng', 'và', 'hoặc', 'hay', 'thì', 'mà', 'nên', 'vì', 'rồi'];
-            conjunctions.forEach(conj => {
-                const regex = new RegExp(`\\s${conj}\\s`, 'gi');
-                formattedText = formattedText.replace(regex, `, ${conj} `);
+            // 2. Thêm dấu phẩy sau các từ nối thông dụng (cải tiến thêm nhiều trường hợp)
+            const conjunctions = ['nhưng', 'và', 'hoặc', 'hay', 'thì', 'mà', 'nên', 'vì', 'rồi', 'sau đó', 'tuy nhiên', 'vậy nên'];
+            const commaBeforePatterns = [
+                /\snhưng\s/gi,
+                /\svà\s/gi,
+                /\shoặc\s/gi,
+                /\shay\s/gi,
+                /\sthì\s/gi,
+                /\smà\s/gi,
+                /\snên\s/gi,
+                /\svì\s/gi,
+                /\srồi\s/gi,
+                /\ssau đó\s/gi,
+                /\stuy nhiên\s/gi,
+                /\svậy nên\s/gi,
+                /\snhư\s/gi
+            ];
+            
+            // Thêm dấu phẩy trước các từ nối
+            commaBeforePatterns.forEach(pattern => {
+                formattedText = formattedText.replace(pattern, match => {
+                    return match.trim() === 'và' ? ' và ' : `, ${match.trim()} `;
+                });
             });
             
-            // 3. Xử lý dấu câu liền nhau (ví dụ: ".." thành ".")
+            // 3. Xử lý dấu câu liền nhau
             formattedText = formattedText.replace(/([.!?])[.!?]+/g, '$1');
             
-            // 4. Loại bỏ khoảng trắng thừa
-            formattedText = formattedText.replace(/\s+/g, ' ').trim();
+            // 4. Loại bỏ khoảng trắng thừa và thêm khoảng trắng sau dấu phẩy nếu thiếu
+            formattedText = formattedText
+                .replace(/\s+/g, ' ')
+                .replace(/,\s*/g, ', ')
+                .trim();
             
             // 5. Đảm bảo có dấu chấm cuối câu
             if (formattedText.length > 0 && !/[.!?]$/.test(formattedText)) {
