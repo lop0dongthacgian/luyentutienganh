@@ -82,9 +82,8 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
         recognition.lang = 'vi-VN';
-        recognition.interimResults = true;
+        recognition.interimResults = false;
         recognition.maxAlternatives = 1;
-        recognition.continuous = true;
 
         // DOM elements
         const micBtn = document.getElementById('micBtn');
@@ -95,11 +94,9 @@
         const deleteBtn = document.getElementById('deleteBtn');
         const editBtn = document.getElementById('editBtn');
 
-        // Variables for speech recognition
+        // Variable to prevent duplicate results
         let lastResult = '';
         let isListening = false;
-        let speechTimeout = null;
-        let lastFinalResult = '';
 
         // Initialize
         textOutput.innerText = 'Nhấn vào nút micro để bắt đầu ghi âm...';
@@ -116,7 +113,6 @@
                     status.innerText = 'Lỗi khởi động micro: ' + error.message;
                 }
             } else {
-                clearTimeout(speechTimeout);
                 recognition.stop();
                 micBtn.classList.remove('active');
                 status.innerText = 'Micro đã tắt';
@@ -126,48 +122,21 @@
 
         // Speech recognition event handlers
         recognition.onresult = (event) => {
-            let currentText = textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...' 
-                ? '' 
-                : textOutput.innerText + ' ';
+            const result = event.results[0][0].transcript.trim();
             
-            // Handle interim and final results
-            let newText = '';
-            for (let i = event.resultIndex; i < event.results.length; i++) {
-                // Only add content if it's new and meaningful
-                const transcript = event.results[i][0].transcript.trim();
-                if (transcript && 
-                    !currentText.includes(transcript) && 
-                    (!event.results[i].isFinal || !lastResult.includes(transcript))) {
-                    
-                    newText += (newText ? ' ' : '') + transcript;
+            // Check for duplicate results
+            if (result !== lastResult) {
+                if (textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...') {
+                    textOutput.innerText = result;
+                } else {
+                    // Add space before appending new text
+                    textOutput.innerText += ' ' + result;
                 }
+                lastResult = result;
+                
+                // Auto-scroll to bottom
+                textOutput.scrollTop = textOutput.scrollHeight;
             }
-            
-            // Only update if we have new content
-            if (newText) {
-                displayText = (currentText + newText).trim().replace(/\s+/g, ' ');
-                textOutput.innerText = displayText;
-                lastResult = displayText;
-            }
-            
-            // Update last result for final transcripts only
-            if (event.results[event.results.length - 1].isFinal) {
-                lastResult = textOutput.innerText;
-            }
-            
-            // Auto-scroll to bottom
-            textOutput.scrollTop = textOutput.scrollHeight;
-            
-            // Reset timeout on new speech
-            clearTimeout(speechTimeout);
-            speechTimeout = setTimeout(() => {
-                if (isListening) {
-                    recognition.stop();
-                    micBtn.classList.remove('active');
-                    status.innerText = 'Tự động dừng sau 1 phút không có giọng nói';
-                    isListening = false;
-                }
-            }, 60000); // 1 minute timeout
         };
 
         recognition.onerror = (event) => {
