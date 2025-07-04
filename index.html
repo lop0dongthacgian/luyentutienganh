@@ -23,9 +23,6 @@
             max-height: 300px;
             transition: height 0.3s ease;
             white-space: pre-wrap;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            color: #334155;
         }
         .action-btn {
             transition: all 0.2s ease;
@@ -34,7 +31,6 @@
         }
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         .action-btn:active {
             transform: translateY(1px);
@@ -66,36 +62,6 @@
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
         
-        /* Button colors */
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
-        }
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-        .btn-warning {
-            background-color: #f59e0b;
-            color: white;
-        }
-        .btn-warning:hover {
-            background-color: #d97706;
-        }
-        .btn-success {
-            background-color: #10b981;
-            color: white;
-        }
-        .btn-success:hover {
-            background-color: #059669;
-        }
-        .btn-danger {
-            background-color: #ef4444;
-            color: white;
-        }
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-        
         /* Header guide styling */
         .header-guide {
             position: relative;
@@ -118,20 +84,17 @@
             color: #333;
         }
         .guide-trigger {
-            background: rgba(255,255,255,0.2);
+            background: none;
             border: none;
-            color: white;
+            color: #bfdbfe;
             font-size: 0.9rem;
             cursor: pointer;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .guide-trigger:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
         }
         .header-guide:hover .guide-content,
         .header-guide:focus-within .guide-content {
@@ -157,7 +120,7 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     <header class="gradient-bg text-white py-4 shadow-md relative">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 text-center">
             <div class="flex justify-between items-center">
                 <div class="flex-1"></div>
                 <div class="flex-1 text-center">
@@ -172,8 +135,8 @@
                             </svg>
                         </button>
                         <div class="guide-content">
-                            <h3 class="font-bold mb-2 text-blue-600">Hướng dẫn sử dụng:</h3>
-                            <ul class="list-disc pl-5 space-y-1 text-gray-700">
+                            <h3 class="font-bold mb-2 text-sm sm:text-base">Hướng dẫn sử dụng:</h3>
+                            <ul class="list-disc pl-5 space-y-1 text-xs sm:text-sm">
                                 <li>Nhấn nút Micro để bắt đầu ghi âm</li>
                                 <li>Nhấn lại nút Micro để dừng</li>
                                 <li>Văn bản sẽ tự động hiển thị</li>
@@ -206,7 +169,7 @@
 
             <!-- Text output -->
             <div class="px-6 pb-6">
-                <div id="textOutput" class="text-output rounded-lg p-4 overflow-y-auto">Nhấn vào nút micro để bắt đầu ghi âm...</div>
+                <div id="textOutput" class="text-output bg-gray-50 rounded-lg p-4 overflow-y-auto border border-gray-200" contenteditable="true">Nhấn vào nút micro để bắt đầu ghi âm...</div>
             </div>
 
             <!-- Action buttons - now 4 buttons -->
