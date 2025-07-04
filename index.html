@@ -96,6 +96,13 @@
         .btn-danger:hover {
             background-color: #dc2626;
         }
+        .btn-purple {
+            background-color: #8b5cf6;
+            color: white;
+        }
+        .btn-purple:hover {
+            background-color: #7c3aed;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -131,6 +138,9 @@
                 <button id="editBtn" class="action-btn btn-warning px-4 py-2 rounded-lg transition-transform">
                     Chỉnh sửa
                 </button>
+                <button id="formatBtn" class="action-btn btn-purple px-4 py-2 rounded-lg transition-transform">
+                    Định dạng
+                </button>
                 <button id="copyBtn" class="action-btn btn-primary px-4 py-2 rounded-lg transition-transform">
                     Sao chép
                 </button>
@@ -164,6 +174,7 @@
         const shareBtn = document.getElementById('shareBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const editBtn = document.getElementById('editBtn');
+        const formatBtn = document.getElementById('formatBtn');
         const waveContainer = document.getElementById('waveContainer');
 
         // Variable to prevent duplicate results
@@ -204,6 +215,60 @@
             }
         }
 
+        // Hàm tự động định dạng văn bản
+        function autoFormatText(text) {
+            if (!text) return text;
+            
+            // 1. Xử lý các câu
+            let sentences = text.split(/([.!?]+\s*)/);
+            let formattedText = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < sentences.length; i++) {
+                if (sentences[i].trim().length > 0) {
+                    let sentence = sentences[i].trim();
+                    
+                    // Xử lý dấu ngoặc kép
+                    const quoteCount = (sentence.match(/"/g) || []).length;
+                    if (quoteCount % 2 !== 0) {
+                        inQuotes = !inQuotes;
+                    }
+                    
+                    if (sentence.length > 0) {
+                        // Viết hoa chữ cái đầu
+                        sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+                        
+                        // Thêm dấu chấm nếu cần
+                        if (i < sentences.length - 1 && !/[.!?]$/.test(sentence) && !inQuotes) {
+                            sentence += '.';
+                        }
+                        
+                        formattedText += sentence + ' ';
+                    }
+                }
+            }
+            
+            // 2. Thêm dấu phẩy sau các từ nối thông dụng
+            const conjunctions = ['nhưng', 'và', 'hoặc', 'hay', 'thì', 'mà', 'nên', 'vì', 'rồi'];
+            conjunctions.forEach(conj => {
+                const regex = new RegExp(`\\s${conj}\\s`, 'gi');
+                formattedText = formattedText.replace(regex, `, ${conj} `);
+            });
+            
+            // 3. Xử lý dấu câu liền nhau (ví dụ: ".." thành ".")
+            formattedText = formattedText.replace(/([.!?])[.!?]+/g, '$1');
+            
+            // 4. Loại bỏ khoảng trắng thừa
+            formattedText = formattedText.replace(/\s+/g, ' ').trim();
+            
+            // 5. Đảm bảo có dấu chấm cuối câu
+            if (formattedText.length > 0 && !/[.!?]$/.test(formattedText)) {
+                formattedText += '.';
+            }
+            
+            return formattedText;
+        }
+
         // Microphone button click handler
         micBtn.addEventListener('click', () => {
             if (!isListening) {
@@ -227,17 +292,19 @@
 
         // Speech recognition event handlers
         recognition.onresult = (event) => {
-            const result = event.results[0][0].transcript.trim();
+            const rawResult = event.results[0][0].transcript.trim();
             
             // Check for duplicate results
-            if (result !== lastResult) {
+            if (rawResult !== lastResult) {
+                const formattedResult = autoFormatText(rawResult);
+                
                 if (textOutput.innerText === 'Nhấn vào nút micro để bắt đầu ghi âm...') {
-                    textOutput.innerText = result;
+                    textOutput.innerText = formattedResult;
                 } else {
-                    // Add space before appending new text
-                    textOutput.innerText += ' ' + result;
+                    // Thêm khoảng trắng trước khi nối câu mới
+                    textOutput.innerText += ' ' + formattedResult;
                 }
-                lastResult = result;
+                lastResult = rawResult;
                 
                 // Auto-scroll to bottom
                 textOutput.scrollTop = textOutput.scrollHeight;
@@ -281,26 +348,26 @@
         });
 
         shareBtn.addEventListener('click', () => {
-    if (textOutput.innerText.trim()) {
-        if (navigator.share) {
-            navigator.share({
-                text: textOutput.innerText.trim() // Chỉ gửi nội dung chính
-            }).catch(err => {
-                status.innerText = 'Lỗi khi chia sẻ: ' + err;
-            });
-        } else {
-            // Fallback khi trình duyệt không hỗ trợ share API
-            navigator.clipboard.writeText(textOutput.innerText.trim())
-                .then(() => {
-                    status.innerText = 'Đã sao chép vào clipboard!';
-                    setTimeout(() => status.innerText = '', 2000);
-                })
-                .catch(err => {
-                    status.innerText = 'Lỗi khi sao chép: ' + err;
-                });
-        }
-    }
-});
+            if (textOutput.innerText.trim()) {
+                if (navigator.share) {
+                    navigator.share({
+                        text: textOutput.innerText.trim()
+                    }).catch(err => {
+                        status.innerText = 'Lỗi khi chia sẻ: ' + err;
+                    });
+                } else {
+                    // Fallback khi trình duyệt không hỗ trợ share API
+                    navigator.clipboard.writeText(textOutput.innerText.trim())
+                        .then(() => {
+                            status.innerText = 'Đã sao chép vào clipboard!';
+                            setTimeout(() => status.innerText = '', 2000);
+                        })
+                        .catch(err => {
+                            status.innerText = 'Lỗi khi sao chép: ' + err;
+                        });
+                }
+            }
+        });
 
         deleteBtn.addEventListener('click', () => {
             textOutput.innerText = '';
@@ -312,6 +379,13 @@
         editBtn.addEventListener('click', () => {
             textOutput.focus();
             status.innerText = 'Bạn có thể chỉnh sửa văn bản trực tiếp trong khung này';
+        });
+
+        formatBtn.addEventListener('click', () => {
+            const currentText = textOutput.innerText;
+            textOutput.innerText = autoFormatText(currentText);
+            status.innerText = 'Đã tự động định dạng văn bản';
+            setTimeout(() => status.innerText = '', 2000);
         });
 
         // Auto-resize text area
