@@ -10,10 +10,13 @@
         .microphone {
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
         }
         .microphone.active {
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background-color: #ef4444;
         }
         .text-output {
             min-height: 120px;
@@ -26,10 +29,77 @@
         .action-btn:active {
             transform: translateY(1px);
         }
+        
+        /* Wave effect */
+        .wave {
+            position: absolute;
+            border: 2px solid #ef4444;
+            border-radius: 50%;
+            animation: wave 1.5s ease-out infinite;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        @keyframes wave {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Gradient background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        
+        /* Text output styling */
+        .text-output {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #334155;
+        }
+        
+        /* Button styling */
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
+        }
+        .btn-warning:hover {
+            background-color: #d97706;
+        }
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #059669;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <header class="bg-blue-600 text-white py-4 shadow-md">
+    <header class="gradient-bg text-white py-4 shadow-md">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-2xl font-bold">Chuyển giọng nói thành văn bản</h1>
             <p class="text-blue-100">Hỗ trợ tiếng Việt</p>
@@ -38,8 +108,9 @@
 
     <main class="flex-grow container mx-auto px-4 py-8 max-w-3xl">
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <!-- Microphone button -->
-            <div class="p-6 flex justify-center">
+            <!-- Microphone button with wave container -->
+            <div class="p-6 flex justify-center relative">
+                <div id="waveContainer" class="absolute w-20 h-20"></div>
                 <button id="micBtn" class="microphone w-20 h-20 rounded-full bg-blue-500 text-white flex items-center justify-center focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-10a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
@@ -57,16 +128,16 @@
 
             <!-- Action buttons -->
             <div class="bg-gray-100 px-6 py-4 flex justify-center space-x-4">
-                <button id="editBtn" class="action-btn bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-transform">
+                <button id="editBtn" class="action-btn btn-warning px-4 py-2 rounded-lg transition-transform">
                     Chỉnh sửa
                 </button>
-                <button id="copyBtn" class="action-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-transform">
+                <button id="copyBtn" class="action-btn btn-primary px-4 py-2 rounded-lg transition-transform">
                     Sao chép
                 </button>
-                <button id="shareBtn" class="action-btn bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-transform">
+                <button id="shareBtn" class="action-btn btn-success px-4 py-2 rounded-lg transition-transform">
                     Chia sẻ
                 </button>
-                <button id="deleteBtn" class="action-btn bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-transform">
+                <button id="deleteBtn" class="action-btn btn-danger px-4 py-2 rounded-lg transition-transform">
                     Xoá
                 </button>
             </div>
@@ -93,13 +164,45 @@
         const shareBtn = document.getElementById('shareBtn');
         const deleteBtn = document.getElementById('deleteBtn');
         const editBtn = document.getElementById('editBtn');
+        const waveContainer = document.getElementById('waveContainer');
 
         // Variable to prevent duplicate results
         let lastResult = '';
         let isListening = false;
+        let waveInterval;
 
         // Initialize
         textOutput.innerText = 'Nhấn vào nút micro để bắt đầu ghi âm...';
+
+        // Function to create waves
+        function createWave() {
+            const wave = document.createElement('div');
+            wave.classList.add('wave');
+            wave.style.width = '80px';
+            wave.style.height = '80px';
+            wave.style.left = '0';
+            wave.style.top = '0';
+            waveContainer.appendChild(wave);
+            
+            // Remove wave after animation completes
+            setTimeout(() => {
+                wave.remove();
+            }, 1500);
+        }
+
+        // Function to start waves
+        function startWaves() {
+            waveInterval = setInterval(createWave, 300);
+        }
+
+        // Function to stop waves
+        function stopWaves() {
+            clearInterval(waveInterval);
+            // Remove all existing waves
+            while (waveContainer.firstChild) {
+                waveContainer.removeChild(waveContainer.firstChild);
+            }
+        }
 
         // Microphone button click handler
         micBtn.addEventListener('click', () => {
@@ -109,6 +212,7 @@
                     micBtn.classList.add('active');
                     status.innerText = 'Đang nghe...';
                     isListening = true;
+                    startWaves();
                 } catch (error) {
                     status.innerText = 'Lỗi khởi động micro: ' + error.message;
                 }
@@ -117,6 +221,7 @@
                 micBtn.classList.remove('active');
                 status.innerText = 'Micro đã tắt';
                 isListening = false;
+                stopWaves();
             }
         });
 
@@ -144,6 +249,7 @@
             status.innerText = 'Lỗi: ' + event.error;
             micBtn.classList.remove('active');
             isListening = false;
+            stopWaves();
         };
 
         recognition.onend = () => {
@@ -156,6 +262,7 @@
                 }
             } else {
                 micBtn.classList.remove('active');
+                stopWaves();
             }
         };
 
@@ -209,4 +316,3 @@
     </script>
 </body>
 </html>
-
